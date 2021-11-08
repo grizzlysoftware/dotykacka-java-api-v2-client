@@ -1,0 +1,159 @@
+plugins {
+    id 'maven-publish'
+    id 'java'
+    id 'java-library'
+    id 'groovy'
+    id 'signing'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+test {
+    useJUnitPlatform()
+}
+
+task artifactVersion {
+    doFirst {
+        def releaseType = System.getenv("RELEASE_TYPE")
+        if (releaseType == 'SNAPSHOT') {
+            project.version += '-SNAPSHOT'
+        }
+    }
+}
+
+task publishArtifact {
+    dependsOn 'clean'
+    dependsOn 'artifactVersion'
+    dependsOn 'build'
+    dependsOn 'publish'
+    tasks.findByName('artifactVersion').mustRunAfter 'clean'
+    tasks.findByName('build').mustRunAfter 'artifactVersion'
+    tasks.findByName('publish').mustRunAfter 'build'
+}
+
+task sourceJar(type: Jar) {
+    classifier "sources"
+    from sourceSets.main.allJava
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier "javadoc"
+    from javadoc.destinationDir
+}
+
+def releaseType = System.getenv("RELEASE_TYPE")
+
+if (releaseType != null) {
+    configurePublishing(releaseType)
+}
+
+def configurePublishing(releaseType) {
+    ext."signing.keyId" = System.getenv("SIGNING_KEY_ID")
+    ext."signing.password" = System.getenv("SIGNING_KEY_PASSWORD")
+    ext."signing.secretKeyRingFile" = System.getenv("SIGNING_KEY_PATH")
+
+    publishing {
+        publications {
+            "${project.name}"(MavenPublication) {
+                from project.components.java
+                artifact sourceJar
+                artifact javadocJar
+                versionMapping {
+                    usage('java-api') {
+                        fromResolutionOf('runtimeClasspath')
+                    }
+                    usage('java-runtime') {
+                        fromResolutionResult()
+                    }
+                }
+                pom {
+                    groupId = project.group
+                    artifactId = project.artifactId
+                    name = project.name
+                    description = project.description
+                    url = project.url
+                    organization {
+                        name = organisationName
+                        url = organisationUrl
+                    }
+                    issueManagement {
+                        system = issueMgmtSystem
+                        url = issueMgmtSystemUrl
+                    }
+                    licenses {
+                        license {
+                            name = license
+                            url = licenseUrl
+                            distribution = licenseDistribution
+                        }
+                    }
+                    scm {
+                        url = scmUrl
+                        connection = scmConnection
+                        developerConnection = scmDevConnection
+                    }
+                    developers {
+                        developer {
+                            name = developer
+                        }
+                    }
+                }
+            }
+        }
+        repositories {
+            mavenLocal()
+
+            if (releaseType == "SNAPSHOT") {
+                maven {
+                    name 'OSS_Sonatype_Snapshot'
+                    url 'https://oss.sonatype.org/content/repositories/snapshots'
+                    credentials {
+                        username System.getenv('SONATYPE_USERNAME')
+                        password System.getenv('SONATYPE_PASSWORD')
+                    }
+                }
+            }
+            if (releaseType == "RELEASE") {
+                maven {
+                    name 'OSS_Sonatype_Staging'
+                    url 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
+                    credentials {
+                        username System.getenv('SONATYPE_USERNAME')
+                        password System.getenv('SONATYPE_PASSWORD')
+                    }
+                }
+            }
+        }
+    }
+
+    signing {
+        sign publishing.publications."${project.name}"
+    }
+}
+
+dependencies {
+    implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: okHttpVersion
+    implementation group: 'com.squareup.retrofit2', name: 'retrofit', version: retrofitVersion
+    implementation group: 'com.squareup.retrofit2', name: 'converter-jackson', version: retrofitVersion
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: jacksonVersion
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: jacksonVersion
+    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: jacksonVersion
+    implementation group: 'com.auth0', name: 'java-jwt', version: javaJwtVersion
+
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: commonsLang3Version
+    implementation group: 'commons-codec', name: 'commons-codec', version: commonsCodecVersion
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion
+    implementation group: 'ch.qos.logback', name: 'logback-classic', version: logbackVersion
+
+    testImplementation group: 'org.codehaus.groovy', name: 'groovy', version: groovyVersion
+    testImplementation group: 'org.spockframework', name: 'spock-core', version: spockVersion
+}

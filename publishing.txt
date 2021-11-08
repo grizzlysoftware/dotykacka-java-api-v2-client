@@ -1,0 +1,21 @@
+a note to myself from future:
+
+hello me from the future, in order to publish artifact in sonatype, you have to invoke following providing specific properties:
+
+RELEASE_TYPE=SNAPSHOT \
+SIGNING_KEY_ID=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \
+SIGNING_KEY_PASSWORD=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \
+SIGNING_KEY_PATH=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \
+SONATYPE_USERNAME=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \
+SONATYPE_PASSWORD=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \
+gradlew clean publishArtifact i
+
+checkout the artifacts in here:
+https://oss.sonatype.org/
+
+firstly SNAPSHOT, then RELEASE.
+
+"yours" sincerely,
+you from the past
+
+PS. you have a mess in your gpg keys, so if something is f*cked up - you deserved it
