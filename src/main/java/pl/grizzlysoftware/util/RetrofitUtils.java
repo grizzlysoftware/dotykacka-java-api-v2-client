@@ -18,11 +18,11 @@
 
 package pl.grizzlysoftware.util;
 
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.CallAdapter;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
@@ -38,14 +38,10 @@ public final class RetrofitUtils {
         if (url != null && !url.endsWith("/")) {
             url += "/";
         }
-        final var mapper = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule());
-        mapper.enable(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE);
-        mapper.enable(MapperFeature.ALLOW_EXPLICIT_PROPERTY_RENAMING);
+        final var mapper = JacksonProvider.mapper;
         return new Retrofit.Builder()
                 .baseUrl(url)
                 .client(client)
-                .addConverterFactory(new OkHttpNonEmptyBodyConverterFactory())
                 .addConverterFactory(new Converter.Factory() {
                     Converter.Factory jks = JacksonConverterFactory.create(mapper);
                     @Override

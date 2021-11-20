@@ -1,6 +1,7 @@
 package pl.grizzlysoftware.dotykacka.client.v2.facade;
 
 import pl.grizzlysoftware.dotykacka.client.v2.model.Branch;
+import pl.grizzlysoftware.dotykacka.client.v2.model.ResultPage;
 import pl.grizzlysoftware.dotykacka.client.v2.service.BranchService;
 
 import java.util.Collection;
@@ -10,27 +11,27 @@ import java.util.Collection;
  */
 public class BranchServiceFacade extends DotykackaApiService<BranchService> {
 
-    public BranchServiceFacade(BranchService service, Long cloudId) {
-        super(service, cloudId);
+    public BranchServiceFacade(BranchService service) {
+        super(service);
     }
 
     public Branch getBranch(Long id) {
-        return execute(service.getBranch(cloudId, id));
+        return execute(service.getBranch(id));
     }
 
-    public Collection<Branch> getBranches(int limit, int offset, String filter, String sort) {
-        return execute(service.getBranches(cloudId, limit, offset, filter, sort));
+    public ResultPage<Branch> getBranches(int page, int pageSize, String filter, String sort) {
+        return execute(service.getBranches(page, pageSize, filter, sort));
     }
 
-    public Collection<Branch> getBranches(int limit, int offset, String sort) {
-        return getBranches(limit, offset, null, sort);
+    public ResultPage<Branch> getBranches(int page, int pageSize, String sort) {
+        return getBranches(page, pageSize, null, sort);
     }
 
-    public Collection<Branch> getBranches(String sort) {
-        return batchLoader.load(page -> getBranches(page.limit, page.offset, sort));
+    public Collection<Branch> getAllBranches(String sort) {
+        return batchLoader.load(page -> getBranches(page.page, page.pageSize, sort));
     }
 
-    public Collection<Branch> getBranches() {
-        return getBranches(null);
+    public Collection<Branch> getAllBranches() {
+        return getAllBranches(null);
     }
 }

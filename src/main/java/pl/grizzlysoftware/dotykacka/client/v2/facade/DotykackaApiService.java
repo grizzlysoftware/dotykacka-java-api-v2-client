@@ -12,21 +12,18 @@ import static pl.grizzlysoftware.dotykacka.util.exception.ExceptionPreconditions
  * Wrapper for Retrofit service client that stores cloudId for convenience
  */
 public class DotykackaApiService<T> extends RetrofitApiService {
-    protected final Long cloudId;
     protected final T service;
     protected final BatchLoader batchLoader;
 
 
-    public DotykackaApiService(T service, RetrofitCallExecutor executor, Long cloudId) {
+    public DotykackaApiService(T service, RetrofitCallExecutor executor) {
         super(executor);
         this.service = checkNotNull(service, "20211108:145853", "service cannot be null");
-        this.cloudId = checkNotNull(cloudId, "20211108:145854", "cloudId cannot be null");
         this.batchLoader = new BatchLoader(100);
     }
 
-    public DotykackaApiService(T service, Long cloudId) {
+    public DotykackaApiService(T service) {
         this.service = checkNotNull(service, "20211108:145853", "service cannot be null");
-        this.cloudId = checkNotNull(cloudId, "20211108:145854", "cloudId cannot be null");
         this.batchLoader = new BatchLoader(100);
     }
 }

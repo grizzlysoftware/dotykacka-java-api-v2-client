@@ -1,6 +1,6 @@
 package pl.grizzlysoftware.dotykacka.util;
 
 public class Page {
-    public int limit;
-    public int offset;
+    public int page;
+    public int pageSize;
 }

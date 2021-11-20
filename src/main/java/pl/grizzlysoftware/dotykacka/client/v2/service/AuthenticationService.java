@@ -19,7 +19,7 @@
 package pl.grizzlysoftware.dotykacka.client.v2.service;
 
 import pl.grizzlysoftware.dotykacka.client.v2.model.AccessToken;
-import pl.grizzlysoftware.dotykacka.client.v2.model.Cloud;
+import pl.grizzlysoftware.dotykacka.client.v2.model.CloudIdWrapper;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Header;
@@ -34,6 +34,6 @@ public interface AuthenticationService {
     @POST("signin/token")
     @Headers("Content-Type: application/json")
     Call<AccessToken> accessToken(
-            @Body Cloud body,
+            @Body CloudIdWrapper body,
             @Header("Authorization") String refreshToken);
 }

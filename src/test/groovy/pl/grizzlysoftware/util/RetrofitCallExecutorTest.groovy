@@ -18,8 +18,12 @@
 
 package pl.grizzlysoftware.util
 
-
+import okhttp3.FormBody
+import okhttp3.Headers
+import okhttp3.HttpUrl
 import okhttp3.MediaType
+import okhttp3.Request
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
@@ -52,13 +56,13 @@ class RetrofitCallExecutorTest extends Specification {
             def exception = thrown(ResponseStatusException)
             exception.statusCode == expectedStatusCode
         where:
-            statusCode                            | expectedStatusCode
-            HttpURLConnection.HTTP_FORBIDDEN      | HttpURLConnection.HTTP_FORBIDDEN
-            HttpURLConnection.HTTP_UNAUTHORIZED   | HttpURLConnection.HTTP_UNAUTHORIZED
-            HttpURLConnection.HTTP_INTERNAL_ERROR | HttpURLConnection.HTTP_INTERNAL_ERROR
-            HttpURLConnection.HTTP_UNAVAILABLE    | HttpURLConnection.HTTP_UNAVAILABLE
-            HttpURLConnection.HTTP_NOT_FOUND      | HttpURLConnection.HTTP_NOT_FOUND
-            900                                   | 900                                     //this is just to ensure, that executor is trying to mimic status from response retrieved from external service
+            statusCode                            || expectedStatusCode
+            HttpURLConnection.HTTP_FORBIDDEN      || HttpURLConnection.HTTP_FORBIDDEN
+            HttpURLConnection.HTTP_UNAUTHORIZED   || HttpURLConnection.HTTP_UNAUTHORIZED
+            HttpURLConnection.HTTP_INTERNAL_ERROR || HttpURLConnection.HTTP_INTERNAL_ERROR
+            HttpURLConnection.HTTP_UNAVAILABLE    || HttpURLConnection.HTTP_UNAVAILABLE
+            HttpURLConnection.HTTP_NOT_FOUND      || HttpURLConnection.HTTP_NOT_FOUND
+            900                                   || 900                                     //this is just to ensure, that executor is trying to mimic status from response retrieved from external service
     }
 
     def "proceeds when response is sort of success"(int statusCode, int expectedStatusCode) {
@@ -69,12 +73,12 @@ class RetrofitCallExecutorTest extends Specification {
         then:
             result.code() == expectedStatusCode
         where:
-            statusCode                        | expectedStatusCode
-            HttpURLConnection.HTTP_OK         | HttpURLConnection.HTTP_OK
-            HttpURLConnection.HTTP_ACCEPTED   | HttpURLConnection.HTTP_ACCEPTED
-            HttpURLConnection.HTTP_CREATED    | HttpURLConnection.HTTP_CREATED
-            HttpURLConnection.HTTP_NO_CONTENT | HttpURLConnection.HTTP_NO_CONTENT
-            299                               | 299                                          //this is just to ensure, that executor is mimicing response from response retrieved from external service
+            statusCode                        || expectedStatusCode
+            HttpURLConnection.HTTP_OK         || HttpURLConnection.HTTP_OK
+            HttpURLConnection.HTTP_ACCEPTED   || HttpURLConnection.HTTP_ACCEPTED
+            HttpURLConnection.HTTP_CREATED    || HttpURLConnection.HTTP_CREATED
+            HttpURLConnection.HTTP_NO_CONTENT || HttpURLConnection.HTTP_NO_CONTENT
+            299                               || 299                                          //this is just to ensure, that executor is mimicing response from response retrieved from external service
     }
 
     def "given target class is equal to the given one"(Class target) {
@@ -86,6 +90,21 @@ class RetrofitCallExecutorTest extends Specification {
             target << [Specification, RetrofitCallExecutorTest]
     }
 
+    HttpUrl urlStub(String url) {
+        return new HttpUrl("http://", "", "", "localhost", 8080, [], [], "", url)
+    }
+
+    Request requestStub(String url, String method) {
+        def request = new Request(
+                urlStub(url),
+                method,
+                new Headers([] as String[]),
+                new FormBody([], []),
+                [:]
+        )
+        return request
+    }
+
     Call okStubCall(int statusCode) {
         def call = Mock(Call)
         call.execute() >> Response.success(statusCode, json())
@@ -94,6 +113,7 @@ class RetrofitCallExecutorTest extends Specification {
 
     Call errorStubCall(int statusCode) {
         def call = Mock(Call)
+        call.request() >> requestStub("https://localhost:8080/test", "GET")
         call.execute() >> Response.error(statusCode, json())
         return call
     }

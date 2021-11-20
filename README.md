@@ -19,10 +19,35 @@ Compatible with Dotykacka api version 2.x
 ### Gradle
 
 ```
-compile group: 'pl.grizzlysoftware', name: 'dotykacka-java-api-client', version: '1.0.0'
+compile group: 'pl.grizzlysoftware', name: 'dotykacka-java-api-v2-client', version: '1.0.0'
 ```
 
 ## Running unit tests
 ```
 gradlew clean test 
 ```
+
+## Contribution
+You are very welcome to fork and submit pull-requests
+
+## TODO
+
+Things to implement:
+- Base sales report
+- POS Actions
+  - Create order
+  - Update order
+  - Add order items
+  - Split order
+  - Issue order
+  - Pay issued order
+  - Create and issue order
+  - Create, issue and pay order
+  - Split and issue order
+  - Split, issue and pay order
+  - Issue and pay
+  - Change order status (Work in progress(?))
+  - Get list of open orders
+  - Change item's course
+  - Prepare next course
+  - Set/unset item(s) as takeaway

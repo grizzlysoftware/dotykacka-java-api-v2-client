@@ -39,4 +39,8 @@ public class RetrofitApiService {
     protected <T> T execute(Call<T> call) {
         return executor.execOrThrow(call);
     }
+
+    public void setCallExecutionListener(OnRetrofitCallExecutionListener callExecutionListener) {
+        executor.setCallExecutionListener(callExecutionListener);
+    }
 }

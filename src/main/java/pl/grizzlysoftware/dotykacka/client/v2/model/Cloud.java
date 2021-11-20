@@ -1,18 +1,24 @@
 package pl.grizzlysoftware.dotykacka.client.v2.model;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import static java.util.Objects.requireNonNull;
+public class Cloud extends Entity {
 
-public class Cloud {
-    private final Long cloudId;
+    @JsonProperty("1ClickId")
+    public String oneClickId;
 
-    public Cloud(Long cloudId) {
-        this.cloudId = requireNonNull(cloudId, "cloudId cannot be null");
-    }
+    @JsonProperty("_companyId")
+    public String companyId;
 
-    @JsonAlias("_cloudId")
-    public Long getCloudId() {
-        return cloudId;
-    }
+    @JsonProperty("country")
+    public String country;
+
+    @JsonProperty("expired")
+    public Boolean isExpired = false;
+
+    @JsonProperty("restricted")
+    public Boolean isRestricted = false;
+
+    @JsonProperty("segment")
+    public String segment = "";
 }

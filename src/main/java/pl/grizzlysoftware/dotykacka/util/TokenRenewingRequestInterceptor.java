@@ -31,7 +31,7 @@ import static java.util.Objects.requireNonNull;
  */
 public class TokenRenewingRequestInterceptor implements Interceptor {
 
-    private AccessTokenProvider accessTokenProvider;
+    private final AccessTokenProvider accessTokenProvider;
 
     public TokenRenewingRequestInterceptor(AccessTokenProvider accessTokenProvider) {
         this.accessTokenProvider = requireNonNull(accessTokenProvider);

@@ -1,35 +1,31 @@
 package pl.grizzlysoftware.dotykacka.util;
 
+import pl.grizzlysoftware.dotykacka.client.v2.model.ResultPage;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Function;
 
 public class BatchLoader {
-    private int limit;
+    private final int pageSize;
 
-    public BatchLoader(int limit) {
-        this.limit = limit;
+    public BatchLoader(int pageSize) {
+        this.pageSize = pageSize;
     }
 
-    public <T extends Collection<?>> T load(Function<Page, T> f) {
-        int size = 0, lastSize = 0, limit = 100, offset = 0;
-
-        var page = new Page();
-
-        var out = new ArrayList<>(10_000);
+    public <T, F extends ResultPage<T>> Collection<T> load(Function<Page, F> f) {
+        final var page = new Page();
+        page.page = 1;
+        page.pageSize = pageSize;
+        final var out = new ArrayList<T>(10_000);
         while (true) {
-            page.limit = limit;
-            page.offset = offset;
-            var p = f.apply(page);
-            out.addAll(p);
-            size += p.size();
-            if (size == lastSize) {
+            final var p = f.apply(page);
+            out.addAll(p.data);
+            if (p.page == p.lastPage) {
                 break;
             }
-
-            lastSize = size;
-            offset += limit;
+            page.page++;
         }
-        return (T) out;
+        return out;
     }
 }

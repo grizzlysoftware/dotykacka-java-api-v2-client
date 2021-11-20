@@ -30,20 +30,22 @@ import java.io.IOException;
  * @author Bartosz Pawłowski, bpawlowski@grizzlysoftware.pl
  */
 public class OkHttpLoggingInterceptor implements Interceptor {
+
     private static final Logger logger = LoggerFactory.getLogger(OkHttpLoggingInterceptor.class);
+
     @Override
     public Response intercept(@NotNull Chain chain) throws IOException {
         var request = chain.request();
 
         var t1 = System.nanoTime();
-        logger.debug("Sending request {} \n*HEADERS:\n{}",
-                request.url(), request.headers());
+        logger.debug("Sending request [{}] {} \n*HEADERS:\n{}",
+                request.method(), request.url(), request.headers());
 
         var response = chain.proceed(request);
 
         var t2 = System.nanoTime();
-        logger.debug("Received response for {} \n*TIME ELAPSED:{}\n*STATUS: {}\n*HEADERS:\n{}",
-                response.request().url(), (t2 - t1) / 1e6d, response.code(), response.headers());
+        logger.debug("Received response for [{}] {} \n*TIME ELAPSED:{}\n*STATUS: {}\n*HEADERS:\n{}",
+                request.method(), response.request().url(), (t2 - t1) / 1e6d, response.code(), response.headers());
 
         return response;
     }

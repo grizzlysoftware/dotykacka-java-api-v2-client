@@ -3,6 +3,7 @@ package pl.grizzlysoftware.dotykacka.client.v2.model;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -22,8 +23,8 @@ public class AccessToken {
      */
     public final String token;
 
+    @JsonIgnore
     private final DecodedJWT decodedToken;
-
 
     @JsonCreator
     public AccessToken(@JsonProperty("accessToken") String token) {
