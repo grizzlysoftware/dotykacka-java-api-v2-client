@@ -18,6 +18,7 @@
 
 package pl.grizzlysoftware.dotykacka.client.v2.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import pl.grizzlysoftware.dotykacka.client.v2.model.ProductStock;
 import pl.grizzlysoftware.dotykacka.client.v2.model.Warehouse;
 import pl.grizzlysoftware.dotykacka.client.v2.model.ResultPage;
@@ -114,7 +115,7 @@ public interface WarehouseService {
      * @return stock up id
      */
     @POST("{warehouseId}/stockups")
-    Call<Integer> stockup(@Path("warehouseId") Long warehouseId, @Body WarehouseStockUp body);
+    Call<JsonNode> stockup(@Path("warehouseId") Long warehouseId, @Body WarehouseStockUp body);
 
     /**
      * @param warehouseId - warehouse to which stocks should be transfered
@@ -122,7 +123,7 @@ public interface WarehouseService {
      * @return transfer id
      */
     @POST("{warehouseId}/transfer")
-    Call<Integer> transfer(@Path("warehouseId") Long warehouseId, @Body WarehouseTransfer body);
+    Call<JsonNode> transfer(@Path("warehouseId") Long warehouseId, @Body WarehouseTransfer body);
 
 
     /**
@@ -131,5 +132,5 @@ public interface WarehouseService {
      * @return sale id
      */
     @POST("{warehouseId}/transfer")
-    Call<Integer> sales(@Path("warehouseId") Long warehouseId, @Body WarehouseItemSale body);
+    Call<JsonNode> sales(@Path("warehouseId") Long warehouseId, @Body WarehouseItemSale body);
 }

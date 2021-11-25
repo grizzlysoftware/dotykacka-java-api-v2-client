@@ -1,5 +1,6 @@
 package pl.grizzlysoftware.dotykacka.client.v2.facade;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import pl.grizzlysoftware.dotykacka.client.v2.model.ProductStock;
 import pl.grizzlysoftware.dotykacka.client.v2.model.ResultPage;
 import pl.grizzlysoftware.dotykacka.client.v2.model.Warehouse;
@@ -71,15 +72,15 @@ public class WarehouseServiceFacade extends DotykackaApiService<WarehouseService
         return execute(service.getProductStockById(warehouseId, productId));
     }
 
-    public Integer stockup(WarehouseStockUp body) {
+    public JsonNode stockup(WarehouseStockUp body) {
         return execute(service.stockup(body.warehouseId, body));
     }
 
-    public Integer transfer(WarehouseTransfer body) {
+    public JsonNode transfer(WarehouseTransfer body) {
         return execute(service.transfer(body.warehouseId, body));
     }
 
-    public Integer sales(WarehouseItemSale body) {
+    public JsonNode sales(WarehouseItemSale body) {
         return execute(service.sales(body.warehouseId, body));
     }
 }

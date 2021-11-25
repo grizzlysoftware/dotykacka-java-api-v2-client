@@ -103,8 +103,8 @@ public class DotykackaApiClient {
         final var reqHttpClient = builder()
                 .callTimeout(configuration.requestTimeout)
                 .addInterceptor(new TokenRenewingRequestInterceptor(new AccessTokenProvider(authenticationServiceFacade)))
-                .addInterceptor(new OkHttpLoggingInterceptor())
                 .addInterceptor(new ETagRequestHeaderApplier())
+                .addInterceptor(new OkHttpLoggingInterceptor())
                 .build();
 
         final var compositeExecutionListener = new CompositeOnRetroCallExecutionListener(List.of(

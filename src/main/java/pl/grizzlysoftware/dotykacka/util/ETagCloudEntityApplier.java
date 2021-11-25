@@ -1,6 +1,7 @@
 package pl.grizzlysoftware.dotykacka.util;
 
 import pl.grizzlysoftware.dotykacka.client.v2.model.CloudEntity;
+import pl.grizzlysoftware.dotykacka.client.v2.model.ResultPage;
 import pl.grizzlysoftware.util.OnRetrofitCallExecutionListener;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -32,6 +33,8 @@ public class ETagCloudEntityApplier implements OnRetrofitCallExecutionListener {
             applyOnEntities(body, etag);
         } else if (body instanceof CloudEntity) {
             applyOnEntity(body, etag);
+        } else if (body instanceof ResultPage) {
+            applyOnEntities(((ResultPage<?>) body).data, etag);
         }
     }
 
