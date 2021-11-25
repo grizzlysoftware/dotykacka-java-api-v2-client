@@ -1,21 +1,20 @@
 package pl.grizzlysoftware.dotykacka.client.v2.facade
 
-import pl.grizzlysoftware.dotykacka.client.v2.model.CloudEntity
 
 import java.util.function.Function
 
-class CrudInvocation<T extends CloudEntity> {
+class CrudInvocation {
     String entityName
     String methodType
-    Function<T, T> setupInvocation
-    Function<T, T> methodInvocation
-    Function<T, T> cleanupInvocation
+    Function<?, ?> setupInvocation
+    Function<?, ?> methodInvocation
+    Function<?, ?> cleanupInvocation
 
     CrudInvocation(String entityName,
                    String methodType,
-                   Function<T, T> setupInvocation,
-                   Function<T, T> methodInvocation,
-                   Function<T, T> cleanupInvocation) {
+                   Function<?, ?> setupInvocation,
+                   Function<?, ?> methodInvocation,
+                   Function<?, ?> cleanupInvocation) {
         this.entityName = entityName
         this.methodType = methodType
         this.setupInvocation = setupInvocation

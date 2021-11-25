@@ -39,10 +39,17 @@ public interface ProductCustomizationService {
 
     /**
      * @param productCustomizations - productCustomizations to be created
-     * @return ProductCustomization
+     * @return ProductCustomizations
      */
     @POST(" ")
     Call<Collection<ProductCustomization>> createProductCustomizations(@Body Collection<ProductCustomization> productCustomizations);
+
+    /**
+     * @param productCustomizations - productCustomizations to be created or updated
+     * @return ProductCustomizations
+     */
+    @PUT(" ")
+    Call<Collection<ProductCustomization>> updateProductCustomizations(@Body Collection<ProductCustomization> productCustomizations);
 
     /**
      * @param productCustomizationId - id of productCustomization to be updated

@@ -21,8 +21,8 @@ class WarehouseBranchServiceFacadeTest extends GenericDotykackaServiceFacadeTest
     }
 
     @Override
-    CrudInvocation<CloudEntity> getEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("WarehouseBranch", "getById",
+    CrudInvocation getEntityInvocationDefinition() {
+        return new CrudInvocation("WarehouseBranch", "getById",
                 { _void -> service().createWarehouseBranch(warehouseBranch()) },
                 { obj -> service().getWarehouseBranch(obj.id) },
                 { obj -> null }
@@ -35,8 +35,8 @@ class WarehouseBranchServiceFacadeTest extends GenericDotykackaServiceFacadeTest
     }
 
     @Override
-    CrudInvocation<CloudEntity> getCreateEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("WarehouseBranch", "create",
+    CrudInvocation getCreateEntityInvocationDefinition() {
+        return new CrudInvocation("WarehouseBranch", "create",
                 { _void -> warehouseBranch() },
                 service()::createWarehouseBranch,
                 { obj -> null }
@@ -44,8 +44,8 @@ class WarehouseBranchServiceFacadeTest extends GenericDotykackaServiceFacadeTest
     }
 
     @Override
-    CrudInvocation<CloudEntity> getDeleteEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("WarehouseBranch", "delete",
+    CrudInvocation getDeleteEntityInvocationDefinition() {
+        return new CrudInvocation("WarehouseBranch", "delete",
                 { _void -> service().createWarehouseBranch(warehouseBranch()) },
                 { obj -> null },
                 { obj -> null }
@@ -53,8 +53,8 @@ class WarehouseBranchServiceFacadeTest extends GenericDotykackaServiceFacadeTest
     }
 
     @Override
-    CrudInvocation<CloudEntity> getUpdateEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("WarehouseBranch", "update",
+    CrudInvocation getUpdateEntityInvocationDefinition() {
+        return new CrudInvocation("WarehouseBranch", "update",
                 { _void -> service().createWarehouseBranch(warehouseBranch()) },
                 { obj -> service().updateWarehouseBranch(obj)},
                 { obj -> null }
@@ -62,8 +62,19 @@ class WarehouseBranchServiceFacadeTest extends GenericDotykackaServiceFacadeTest
     }
 
     @Override
-    CrudInvocation<CloudEntity> getPatchEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("WarehouseBranch", "patch",
+    CrudInvocation getBatchUpdateEntitiesInvocationDefinition() {
+        return new CrudInvocation("WarehouseBranch", "batch update",
+                { _void -> service().getWarehouseBranches(1, 2, null) },
+                { obj ->
+                    service().updateWarehouseBranches(obj.data)
+                },
+                { obj -> null }
+        )
+    }
+
+    @Override
+    CrudInvocation getPatchEntityInvocationDefinition() {
+        return new CrudInvocation("WarehouseBranch", "patch",
                 { _void -> service().createWarehouseBranch(warehouseBranch()) },
                 { obj -> service().patchWarehouseBranch(obj) },
                 { obj -> null }

@@ -26,8 +26,8 @@ class ReservationServiceFacadeTest extends GenericDotykackaServiceFacadeTest<Res
     }
 
     @Override
-    CrudInvocation<CloudEntity> getEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("Reservation", "getById",
+    CrudInvocation getEntityInvocationDefinition() {
+        return new CrudInvocation("Reservation", "getById",
                 { _void -> service().createReservation(reservation()) },
                 { obj -> service().getReservation(obj.id) },
                 { obj -> service().deleteReservation(obj.id) }
@@ -40,8 +40,8 @@ class ReservationServiceFacadeTest extends GenericDotykackaServiceFacadeTest<Res
     }
 
     @Override
-    CrudInvocation<CloudEntity> getCreateEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("Reservation", "create",
+    CrudInvocation getCreateEntityInvocationDefinition() {
+        return new CrudInvocation("Reservation", "create",
                 { _void -> reservation() },
                 service()::createReservation,
                 { obj -> service().deleteReservation(obj.id) }
@@ -49,8 +49,8 @@ class ReservationServiceFacadeTest extends GenericDotykackaServiceFacadeTest<Res
     }
 
     @Override
-    CrudInvocation<CloudEntity> getDeleteEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("Reservation", "delete",
+    CrudInvocation getDeleteEntityInvocationDefinition() {
+        return new CrudInvocation("Reservation", "delete",
                 { _void -> service().createReservation(reservation()) },
                 { obj -> service().deleteReservation(obj.id) },
                 { obj -> null }
@@ -58,8 +58,8 @@ class ReservationServiceFacadeTest extends GenericDotykackaServiceFacadeTest<Res
     }
 
     @Override
-    CrudInvocation<CloudEntity> getUpdateEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("Reservation", "update",
+    CrudInvocation getUpdateEntityInvocationDefinition() {
+        return new CrudInvocation("Reservation", "update",
                 { _void -> service().createReservation(reservation()) },
                 { obj -> service().updateReservation(obj)},
                 { obj -> service().deleteReservation(obj.id) }
@@ -67,8 +67,19 @@ class ReservationServiceFacadeTest extends GenericDotykackaServiceFacadeTest<Res
     }
 
     @Override
-    CrudInvocation<CloudEntity> getPatchEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("Reservation", "patch",
+    CrudInvocation getBatchUpdateEntitiesInvocationDefinition() {
+        return new CrudInvocation("Reservation", "batch update",
+                { _void -> service().getReservations(1, 2, null) },
+                { obj ->
+                    service().updateReservations(obj.data)
+                },
+                { obj -> null }
+        )
+    }
+
+    @Override
+    CrudInvocation getPatchEntityInvocationDefinition() {
+        return new CrudInvocation("Reservation", "patch",
                 { _void -> service().createReservation(reservation()) },
                 { obj -> service().patchReservation(obj) },
                 { obj -> service().deleteReservation(obj.id) }

@@ -22,8 +22,8 @@ class DiscountGroupServiceFacadeTest extends GenericDotykackaServiceFacadeTest<D
     }
 
     @Override
-    CrudInvocation<CloudEntity> getEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("DiscountGroup", "getById",
+    CrudInvocation getEntityInvocationDefinition() {
+        return new CrudInvocation("DiscountGroup", "getById",
                 { _void -> service().createDiscountGroup(discountGroup()) },
                 { obj -> service().getDiscountGroup(obj.id) },
                 { obj -> service().deleteDiscountGroup(obj.id) }
@@ -36,8 +36,8 @@ class DiscountGroupServiceFacadeTest extends GenericDotykackaServiceFacadeTest<D
     }
 
     @Override
-    CrudInvocation<CloudEntity> getCreateEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("DiscountGroup", "create",
+    CrudInvocation getCreateEntityInvocationDefinition() {
+        return new CrudInvocation("DiscountGroup", "create",
                 { _void -> discountGroup() },
                 service()::createDiscountGroup,
                 { obj -> service().deleteDiscountGroup(obj.id) }
@@ -45,8 +45,8 @@ class DiscountGroupServiceFacadeTest extends GenericDotykackaServiceFacadeTest<D
     }
 
     @Override
-    CrudInvocation<CloudEntity> getDeleteEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("DiscountGroup", "delete",
+    CrudInvocation getDeleteEntityInvocationDefinition() {
+        return new CrudInvocation("DiscountGroup", "delete",
                 { _void -> service().createDiscountGroup(discountGroup()) },
                 { obj -> service().deleteDiscountGroup(obj.id) },
                 { obj -> null }
@@ -54,8 +54,8 @@ class DiscountGroupServiceFacadeTest extends GenericDotykackaServiceFacadeTest<D
     }
 
     @Override
-    CrudInvocation<CloudEntity> getUpdateEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("DiscountGroup", "update",
+    CrudInvocation getUpdateEntityInvocationDefinition() {
+        return new CrudInvocation("DiscountGroup", "update",
                 { _void -> service().createDiscountGroup(discountGroup()) },
                 { obj -> service().updateDiscountGroup(obj)},
                 { obj -> service().deleteDiscountGroup(obj.id) }
@@ -63,8 +63,19 @@ class DiscountGroupServiceFacadeTest extends GenericDotykackaServiceFacadeTest<D
     }
 
     @Override
-    CrudInvocation<CloudEntity> getPatchEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("DiscountGroup", "patch",
+    CrudInvocation getBatchUpdateEntitiesInvocationDefinition() {
+        return new CrudInvocation("DiscountGroup", "batch update",
+                { _void -> service().getDiscountGroups(1, 5, null) },
+                { obj ->
+                    service().updateDiscountGroups(obj.data)
+                },
+                { obj -> null }
+        )
+    }
+
+    @Override
+    CrudInvocation getPatchEntityInvocationDefinition() {
+        return new CrudInvocation("DiscountGroup", "patch",
                 { _void -> service().createDiscountGroup(discountGroup()) },
                 { obj -> service().patchDiscountGroup(obj) },
                 { obj -> service().deleteDiscountGroup(obj.id) }

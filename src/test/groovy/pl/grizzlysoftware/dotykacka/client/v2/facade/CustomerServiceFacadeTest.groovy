@@ -22,8 +22,8 @@ class CustomerServiceFacadeTest extends GenericDotykackaServiceFacadeTest<Custom
     }
 
     @Override
-    CrudInvocation<CloudEntity> getEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("Customer", "getById",
+    CrudInvocation getEntityInvocationDefinition() {
+        return new CrudInvocation("Customer", "getById",
                 { _void -> service().createCustomer(customer()) },
                 { obj -> service().getCustomer(obj.id) },
                 { obj -> service().deleteCustomer(obj.id) }
@@ -32,12 +32,12 @@ class CustomerServiceFacadeTest extends GenericDotykackaServiceFacadeTest<Custom
 
     @Override
     Supplier<ResultPage<CloudEntity>> getEntitiesPageInvocationDefinition() {
-        return { -> service().getCustomers(1, 100, null)}
+        return { -> service().getCustomers(1, 100, null) }
     }
 
     @Override
-    CrudInvocation<CloudEntity> getCreateEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("Customer", "create",
+    CrudInvocation getCreateEntityInvocationDefinition() {
+        return new CrudInvocation("Customer", "create",
                 { _void -> customer() },
                 service()::createCustomer,
                 { obj -> service().deleteCustomer(obj.id) }
@@ -45,8 +45,8 @@ class CustomerServiceFacadeTest extends GenericDotykackaServiceFacadeTest<Custom
     }
 
     @Override
-    CrudInvocation<CloudEntity> getDeleteEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("Customer", "delete",
+    CrudInvocation getDeleteEntityInvocationDefinition() {
+        return new CrudInvocation("Customer", "delete",
                 { _void -> service().createCustomer(customer()) },
                 { obj -> service().deleteCustomer(obj.id) },
                 { obj -> null }
@@ -54,17 +54,33 @@ class CustomerServiceFacadeTest extends GenericDotykackaServiceFacadeTest<Custom
     }
 
     @Override
-    CrudInvocation<CloudEntity> getUpdateEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("Customer", "update",
+    CrudInvocation getUpdateEntityInvocationDefinition() {
+        return new CrudInvocation("Customer", "update",
                 { _void -> service().createCustomer(customer()) },
-                { obj -> service().updateCustomer(obj)},
+                { obj -> service().updateCustomer(obj) },
                 { obj -> service().deleteCustomer(obj.id) }
         )
     }
 
     @Override
-    CrudInvocation<CloudEntity> getPatchEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("Customer", "patch",
+    CrudInvocation getBatchUpdateEntitiesInvocationDefinition() {
+        return new CrudInvocation("Customer", "batch update",
+                { _void -> service().getCustomers(1, 5, null) },
+                { obj ->
+                    obj.data.forEach {
+                        if (it.tags == null) {
+                            it.tags = []
+                        }
+                    }
+                    service().updateCustomers(obj.data)
+                },
+                { obj -> null }
+        )
+    }
+
+    @Override
+    CrudInvocation getPatchEntityInvocationDefinition() {
+        return new CrudInvocation("Customer", "patch",
                 { _void -> service().createCustomer(customer()) },
                 { obj -> service().patchCustomer(obj) },
                 { obj -> service().deleteCustomer(obj.id) }

@@ -39,10 +39,17 @@ public interface EetSubjectService {
 
     /**
      * @param eetSubjects - eetSubjects to be created
-     * @return EetSubject
+     * @return EetSubjects
      */
     @POST(" ")
     Call<Collection<EetSubject>> createEetSubjects(@Body Collection<EetSubject> eetSubjects);
+
+    /**
+     * @param eetSubjects - eetSubjects to be created or updated
+     * @return EetSubjects
+     */
+    @PUT(" ")
+    Call<Collection<EetSubject>> updateEetSubjects(@Body Collection<EetSubject> eetSubjects);
 
     /**
      * @param eetSubjectId - id of eetSubject to be updated

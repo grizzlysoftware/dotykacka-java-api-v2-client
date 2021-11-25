@@ -21,8 +21,8 @@ class EetSubjectServiceFacadeTest extends GenericDotykackaServiceFacadeTest<EetS
     }
 
     @Override
-    CrudInvocation<CloudEntity> getEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("EetSubject", "getById",
+    CrudInvocation getEntityInvocationDefinition() {
+        return new CrudInvocation("EetSubject", "getById",
                 { _void -> service().createEetSubject(eetSubject()) },
                 { obj -> service().getEetSubject(obj.id) },
                 { obj -> service().deleteEetSubject(obj.id) }
@@ -35,8 +35,8 @@ class EetSubjectServiceFacadeTest extends GenericDotykackaServiceFacadeTest<EetS
     }
 
     @Override
-    CrudInvocation<CloudEntity> getCreateEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("EetSubject", "create",
+    CrudInvocation getCreateEntityInvocationDefinition() {
+        return new CrudInvocation("EetSubject", "create",
                 { _void -> eetSubject() },
                 service()::createEetSubject,
                 { obj -> service().deleteEetSubject(obj.id) }
@@ -44,8 +44,8 @@ class EetSubjectServiceFacadeTest extends GenericDotykackaServiceFacadeTest<EetS
     }
 
     @Override
-    CrudInvocation<CloudEntity> getDeleteEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("EetSubject", "delete",
+    CrudInvocation getDeleteEntityInvocationDefinition() {
+        return new CrudInvocation("EetSubject", "delete",
                 { _void -> service().createEetSubject(eetSubject()) },
                 { obj -> service().deleteEetSubject(obj.id) },
                 { obj -> null }
@@ -53,8 +53,8 @@ class EetSubjectServiceFacadeTest extends GenericDotykackaServiceFacadeTest<EetS
     }
 
     @Override
-    CrudInvocation<CloudEntity> getUpdateEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("EetSubject", "update",
+    CrudInvocation getUpdateEntityInvocationDefinition() {
+        return new CrudInvocation("EetSubject", "update",
                 { _void -> service().createEetSubject(eetSubject()) },
                 { obj -> service().updateEetSubject(obj)},
                 { obj -> service().deleteEetSubject(obj.id) }
@@ -62,8 +62,19 @@ class EetSubjectServiceFacadeTest extends GenericDotykackaServiceFacadeTest<EetS
     }
 
     @Override
-    CrudInvocation<CloudEntity> getPatchEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("EetSubject", "patch",
+    CrudInvocation getBatchUpdateEntitiesInvocationDefinition() {
+        return new CrudInvocation("EetSubject", "batch update",
+                { _void -> service().getEetSubjects(1, 5, null) },
+                { obj ->
+                    service().updateEetSubject(obj.data)
+                },
+                { obj -> null }
+        )
+    }
+
+    @Override
+    CrudInvocation getPatchEntityInvocationDefinition() {
+        return new CrudInvocation("EetSubject", "patch",
                 { _void -> service().createEetSubject(eetSubject()) },
                 { obj -> service().patchEetSubject(obj) },
                 { obj -> service().deleteEetSubject(obj.id) }

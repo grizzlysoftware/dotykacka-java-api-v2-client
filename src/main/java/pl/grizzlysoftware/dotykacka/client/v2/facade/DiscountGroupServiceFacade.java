@@ -16,27 +16,31 @@ public class DiscountGroupServiceFacade extends DotykackaApiService<DiscountGrou
         super(service);
     }
 
-    public DiscountGroup createDiscountGroup(DiscountGroup category) {
-        return createDiscountGroups(singletonList(category))
+    public DiscountGroup createDiscountGroup(DiscountGroup discountGroup) {
+        return createDiscountGroups(singletonList(discountGroup))
                 .stream()
                 .findAny()
                 .orElseThrow();
     }
 
-    public Collection<DiscountGroup> createDiscountGroups(Collection<DiscountGroup> categories) {
-        return execute(service.createDiscountGroups(categories));
+    public Collection<DiscountGroup> createDiscountGroups(Collection<DiscountGroup> discountGroups) {
+        return execute(service.createDiscountGroups(discountGroups));
+    }
+    
+    public Collection<DiscountGroup> updateDiscountGroups(Collection<DiscountGroup> discountGroups) {
+        return execute(service.updateDiscountGroups(discountGroups));
     }
 
-    public DiscountGroup updateDiscountGroup(DiscountGroup category) {
-        return execute(service.updateDiscountGroup(category.id, category));
+    public DiscountGroup updateDiscountGroup(DiscountGroup discountGroup) {
+        return execute(service.updateDiscountGroup(discountGroup.id, discountGroup));
     }
 
-    public DiscountGroup patchDiscountGroup(DiscountGroup category) {
-        return execute(service.patchDiscountGroup(category.id, category));
+    public DiscountGroup patchDiscountGroup(DiscountGroup discountGroup) {
+        return execute(service.patchDiscountGroup(discountGroup.id, discountGroup));
     }
 
-    public DiscountGroup deleteDiscountGroup(Long categoryId) {
-        return execute(service.deleteDiscountGroup(categoryId));
+    public DiscountGroup deleteDiscountGroup(Long discountGroupId) {
+        return execute(service.deleteDiscountGroup(discountGroupId));
     }
 
     public DiscountGroup getDiscountGroup(Long id) {

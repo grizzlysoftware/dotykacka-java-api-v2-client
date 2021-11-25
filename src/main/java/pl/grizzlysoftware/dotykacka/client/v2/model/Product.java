@@ -122,11 +122,17 @@ public class Product extends CloudEntity {
     public Boolean isStockDeductable = true;
 
     @JsonProperty("stockOverdraft")
-    public String stockOverdraft;
+    public StockOverdraft stockOverdraft = StockOverdraft.WARN;
 
     @JsonProperty("unit")
     public Unit unit;
 
     @JsonProperty("unitMeasurement")
     public String unitMeasurement;
+
+    public enum StockOverdraft {
+        ALLOW,
+        WARN,
+        DISABLE
+    }
 }

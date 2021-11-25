@@ -28,6 +28,10 @@ public class ProductServiceFacade extends DotykackaApiService<ProductService> {
         return execute(service.createProducts(products));
     }
 
+    public Collection<Product> updateProducts(Collection<Product> products) {
+        return execute(service.updateProducts(products));
+    }
+
     public Product updateProduct(Product product) {
         return execute(service.updateProduct(product.id, product));
     }

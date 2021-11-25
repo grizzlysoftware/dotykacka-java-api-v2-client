@@ -22,8 +22,8 @@ class SupplierServiceFacadeTest extends GenericDotykackaServiceFacadeTest<Suppli
     }
 
     @Override
-    CrudInvocation<CloudEntity> getEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("Supplier", "getById",
+    CrudInvocation getEntityInvocationDefinition() {
+        return new CrudInvocation("Supplier", "getById",
                 { _void -> service().createSupplier(supplier()) },
                 { obj -> service().getSupplier(obj.id) },
                 { obj -> service().deleteSupplier(obj.id) }
@@ -36,8 +36,8 @@ class SupplierServiceFacadeTest extends GenericDotykackaServiceFacadeTest<Suppli
     }
 
     @Override
-    CrudInvocation<CloudEntity> getCreateEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("Supplier", "create",
+    CrudInvocation getCreateEntityInvocationDefinition() {
+        return new CrudInvocation("Supplier", "create",
                 { _void -> supplier() },
                 service()::createSupplier,
                 { obj -> service().deleteSupplier(obj.id) }
@@ -45,8 +45,8 @@ class SupplierServiceFacadeTest extends GenericDotykackaServiceFacadeTest<Suppli
     }
 
     @Override
-    CrudInvocation<CloudEntity> getDeleteEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("Supplier", "delete",
+    CrudInvocation getDeleteEntityInvocationDefinition() {
+        return new CrudInvocation("Supplier", "delete",
                 { _void -> service().createSupplier(supplier()) },
                 { obj -> service().deleteSupplier(obj.id) },
                 { obj -> null }
@@ -54,8 +54,8 @@ class SupplierServiceFacadeTest extends GenericDotykackaServiceFacadeTest<Suppli
     }
 
     @Override
-    CrudInvocation<CloudEntity> getUpdateEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("Supplier", "update",
+    CrudInvocation getUpdateEntityInvocationDefinition() {
+        return new CrudInvocation("Supplier", "update",
                 { _void -> service().createSupplier(supplier()) },
                 { obj -> service().updateSupplier(obj)},
                 { obj -> service().deleteSupplier(obj.id) }
@@ -63,8 +63,19 @@ class SupplierServiceFacadeTest extends GenericDotykackaServiceFacadeTest<Suppli
     }
 
     @Override
-    CrudInvocation<CloudEntity> getPatchEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("Supplier", "patch",
+    CrudInvocation getBatchUpdateEntitiesInvocationDefinition() {
+        return new CrudInvocation("Supplier", "batch update",
+                { _void -> service().getSuppliers(1, 2, null) },
+                { obj ->
+                    service().updateSuppliers(obj.data)
+                },
+                { obj -> null }
+        )
+    }
+
+    @Override
+    CrudInvocation getPatchEntityInvocationDefinition() {
+        return new CrudInvocation("Supplier", "patch",
                 { _void -> service().createSupplier(supplier()) },
                 { obj -> service().patchSupplier(obj) },
                 { obj -> service().deleteSupplier(obj.id) }

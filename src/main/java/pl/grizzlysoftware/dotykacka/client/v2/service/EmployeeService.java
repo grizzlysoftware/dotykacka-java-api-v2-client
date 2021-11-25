@@ -39,10 +39,17 @@ public interface EmployeeService {
 
     /**
      * @param employees - employees to be created
-     * @return Employee
+     * @return Employees
      */
     @POST(" ")
     Call<Collection<Employee>> createEmployees(@Body Collection<Employee> employees);
+
+    /**
+     * @param employees - employees to be created or updated
+     * @return Employees
+     */
+    @PUT(" ")
+    Call<Collection<Employee>> updateEmployees(@Body Collection<Employee> employees);
 
     /**
      * @param employeeId - id of employee to be updated

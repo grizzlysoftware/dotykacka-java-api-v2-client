@@ -26,6 +26,10 @@ public class EetSubjectServiceFacade extends DotykackaApiService<EetSubjectServi
     public Collection<EetSubject> createEetSubjects(Collection<EetSubject> eetSubjects) {
         return execute(service.createEetSubjects(eetSubjects));
     }
+    
+    public Collection<EetSubject> updateEetSubjects(Collection<EetSubject> eetSubjects) {
+        return execute(service.updateEetSubjects(eetSubjects));
+    }
 
     public EetSubject updateEetSubject(EetSubject eetSubject) {
         return execute(service.updateEetSubject(eetSubject.id, eetSubject));

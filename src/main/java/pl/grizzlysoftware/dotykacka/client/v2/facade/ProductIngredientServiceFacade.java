@@ -27,6 +27,10 @@ public class ProductIngredientServiceFacade extends DotykackaApiService<ProductI
         return execute(service.createProductIngredients(productIngredients));
     }
 
+    public Collection<ProductIngredient> updateProductIngredients(Collection<ProductIngredient> productIngredients) {
+        return execute(service.updateProductIngredients(productIngredients));
+    }
+
     public ProductIngredient updateProductIngredient(ProductIngredient productIngredient) {
         return execute(service.updateProductIngredient(productIngredient.id, productIngredient));
     }

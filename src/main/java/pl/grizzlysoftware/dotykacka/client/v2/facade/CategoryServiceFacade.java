@@ -27,6 +27,10 @@ public class CategoryServiceFacade extends DotykackaApiService<CategoryService> 
         return execute(service.createCategories(categories));
     }
 
+    public Collection<Category> updateCategories(Collection<Category> categories) {
+        return execute(service.updateCategories(categories));
+    }
+
     public Category updateCategory(Category category) {
         return execute(service.updateCategory(category.id, category));
     }

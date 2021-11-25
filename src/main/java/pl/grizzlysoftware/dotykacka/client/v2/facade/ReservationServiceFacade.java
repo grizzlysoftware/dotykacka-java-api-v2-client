@@ -27,6 +27,10 @@ public class ReservationServiceFacade extends DotykackaApiService<ReservationSer
         return execute(service.createReservations(reservations));
     }
 
+    public Collection<Reservation> updateReservations(Collection<Reservation> reservations) {
+        return execute(service.updateReservations(reservations));
+    }
+
     public Reservation updateReservation(Reservation reservation) {
         return execute(service.updateReservation(reservation.id, reservation));
     }

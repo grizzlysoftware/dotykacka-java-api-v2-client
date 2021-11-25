@@ -31,6 +31,10 @@ public class WarehouseServiceFacade extends DotykackaApiService<WarehouseService
     public Collection<Warehouse> createWarehouses(Collection<Warehouse> warehouses) {
         return execute(service.createWarehouses(warehouses));
     }
+    
+    public Collection<Warehouse> updateWarehouses(Collection<Warehouse> warehouses) {
+        return execute(service.updateWarehouses(warehouses));
+    }
 
     public Warehouse updateWarehouse(Warehouse warehouse) {
         return execute(service.updateWarehouse(warehouse.id, warehouse));

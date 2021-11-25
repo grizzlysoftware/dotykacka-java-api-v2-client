@@ -45,6 +45,13 @@ public interface SupplierService {
     Call<Collection<Supplier>> createSuppliers(@Body Collection<Supplier> suppliers);
 
     /**
+     * @param suppliers - suppliers to be created or updated
+     * @return Suppliers
+     */
+    @PUT(" ")
+    Call<Collection<Supplier>> updateSuppliers(@Body Collection<Supplier> suppliers);
+    
+    /**
      * @param supplierId - supplier id to be patched
      * @param supplier - supplier to be updated
      * @return Supplier

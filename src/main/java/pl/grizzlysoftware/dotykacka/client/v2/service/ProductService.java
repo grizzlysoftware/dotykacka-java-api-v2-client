@@ -24,7 +24,6 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -40,10 +39,17 @@ public interface ProductService {
 
     /**
      * @param products - products to be created
-     * @return Product
+     * @return Products
      */
     @POST(" ")
     Call<Collection<Product>> createProducts(@Body Collection<Product> products);
+
+    /**
+     * @param products - products to be created or updated
+     * @return Products
+     */
+    @PUT(" ")
+    Call<Collection<Product>> updateProducts(@Body Collection<Product> products);
 
     /**
      * @param productId - id of product to be updated

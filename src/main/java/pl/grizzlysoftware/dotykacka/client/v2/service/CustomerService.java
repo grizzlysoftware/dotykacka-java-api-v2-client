@@ -45,6 +45,13 @@ public interface CustomerService {
     Call<Collection<Customer>> createCustomers(@Body Collection<Customer> customers);
 
     /**
+     * @param customers - customers to be created or updated
+     * @return Customers
+     */
+    @PUT(" ")
+    Call<Collection<Customer>> updateCustomers(@Body Collection<Customer> customers);
+
+    /**
      * @param customerId - id of customer to be updated
      * @param customer   - customer to be updated
      * @return Customer

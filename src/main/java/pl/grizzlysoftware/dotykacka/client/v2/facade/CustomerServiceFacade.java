@@ -27,6 +27,10 @@ public class CustomerServiceFacade extends DotykackaApiService<CustomerService> 
         return execute(service.createCustomers(customers));
     }
 
+    public Collection<Customer> updateCustomers(Collection<Customer> customers) {
+        return execute(service.updateCustomers(customers));
+    }
+
     public Customer updateCustomer(Customer customer) {
         return execute(service.updateCustomer(customer.id, customer));
     }
