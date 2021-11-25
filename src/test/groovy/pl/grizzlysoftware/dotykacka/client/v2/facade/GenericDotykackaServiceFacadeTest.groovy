@@ -27,22 +27,24 @@ abstract class GenericDotykackaServiceFacadeTest<T extends DotykackaApiService> 
 
     abstract CloudEntity getCloudEntity()
 
-    abstract CrudInvocation<CloudEntity> getEntityInvocationDefinition()
+    abstract CrudInvocation getEntityInvocationDefinition()
 
     abstract Supplier<ResultPage<CloudEntity>> getEntitiesPageInvocationDefinition()
 
-    abstract CrudInvocation<CloudEntity> getCreateEntityInvocationDefinition()
+    abstract CrudInvocation getCreateEntityInvocationDefinition()
 
-    abstract CrudInvocation<CloudEntity> getDeleteEntityInvocationDefinition()
+    abstract CrudInvocation getDeleteEntityInvocationDefinition()
 
-    abstract CrudInvocation<CloudEntity> getUpdateEntityInvocationDefinition()
+    abstract CrudInvocation getUpdateEntityInvocationDefinition()
 
-    abstract CrudInvocation<CloudEntity> getPatchEntityInvocationDefinition()
+    abstract CrudInvocation getBatchUpdateEntitiesInvocationDefinition()
+
+    abstract CrudInvocation getPatchEntityInvocationDefinition()
 
     @Requires({ env.INTEGRATION_TEST })
     def "get - it should get entity by id"() {
         given:
-            CrudInvocation<CloudEntity> inv = getEntityInvocationDefinition()
+            CrudInvocation inv = getEntityInvocationDefinition()
             CloudEntity object = inv.setupInvocation.apply(null)
         when:
             def result = inv.methodInvocation.apply(object)
@@ -55,7 +57,7 @@ abstract class GenericDotykackaServiceFacadeTest<T extends DotykackaApiService> 
     @Requires({ env.INTEGRATION_TEST })
     def "get - it should get entities by page and limit"() {
         given:
-            CrudInvocation<CloudEntity> createInv = getCreateEntityInvocationDefinition()
+            CrudInvocation createInv = getCreateEntityInvocationDefinition()
             CloudEntity object = createInv.setupInvocation.apply(null)
             def preRequisite = createInv.methodInvocation.apply(object)
 
@@ -72,7 +74,7 @@ abstract class GenericDotykackaServiceFacadeTest<T extends DotykackaApiService> 
     @Requires({ env.INTEGRATION_TEST })
     def "create - it should create entity"() {
         given:
-            CrudInvocation<CloudEntity> inv = getCreateEntityInvocationDefinition()
+            CrudInvocation inv = getCreateEntityInvocationDefinition()
             CloudEntity object = inv.setupInvocation.apply(null)
         when:
             def result = inv.methodInvocation.apply(object)
@@ -85,7 +87,7 @@ abstract class GenericDotykackaServiceFacadeTest<T extends DotykackaApiService> 
     @Requires({ env.INTEGRATION_TEST })
     def "delete - it should delete entity"() {
         given:
-            CrudInvocation<CloudEntity> inv = getDeleteEntityInvocationDefinition()
+            CrudInvocation inv = getDeleteEntityInvocationDefinition()
             CloudEntity object = inv.setupInvocation.apply(null)
         when:
             def result = inv.methodInvocation.apply(object)
@@ -98,7 +100,7 @@ abstract class GenericDotykackaServiceFacadeTest<T extends DotykackaApiService> 
     @Requires({ env.INTEGRATION_TEST })
     def "update - it should update entity"() {
         given:
-            CrudInvocation<CloudEntity> inv = getUpdateEntityInvocationDefinition()
+            CrudInvocation inv = getUpdateEntityInvocationDefinition()
             CloudEntity object = inv.setupInvocation.apply(null)
             object.modifiedAt = null
             object.createdAt = null
@@ -111,9 +113,22 @@ abstract class GenericDotykackaServiceFacadeTest<T extends DotykackaApiService> 
     }
 
     @Requires({ env.INTEGRATION_TEST })
+    def "update - it should batch update entities"() {
+        given:
+            CrudInvocation inv = getBatchUpdateEntitiesInvocationDefinition()
+            ResultPage<CloudEntity> object = inv.setupInvocation.apply(null)
+        when:
+            def result = inv.methodInvocation.apply(object)
+        then:
+            result
+        cleanup:
+            inv.cleanupInvocation.apply(result)
+    }
+
+    @Requires({ env.INTEGRATION_TEST })
     def "patch - it should patch entity"() {
         given:
-            CrudInvocation<CloudEntity> inv = getPatchEntityInvocationDefinition()
+            CrudInvocation inv = getPatchEntityInvocationDefinition()
             CloudEntity object = inv.setupInvocation.apply(null)
             object.modifiedAt = null
             object.createdAt = null

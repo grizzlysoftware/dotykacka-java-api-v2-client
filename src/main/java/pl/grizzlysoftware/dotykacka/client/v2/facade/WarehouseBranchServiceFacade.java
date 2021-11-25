@@ -27,6 +27,10 @@ public class WarehouseBranchServiceFacade extends DotykackaApiService<WarehouseB
         return execute(service.createWarehouseBranches(warehouseBranches));
     }
 
+    public Collection<WarehouseBranch> updateWarehouseBranches(Collection<WarehouseBranch> warehouseBranches) {
+        return execute(service.updateWarehouseBranches(warehouseBranches));
+    }
+
     public WarehouseBranch updateWarehouseBranch(WarehouseBranch warehouseBranch) {
         return execute(service.updateWarehouseBranch(warehouseBranch.id, warehouseBranch));
     }

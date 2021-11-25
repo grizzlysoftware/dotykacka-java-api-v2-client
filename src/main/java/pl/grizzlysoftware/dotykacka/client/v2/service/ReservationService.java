@@ -45,6 +45,13 @@ public interface ReservationService {
     Call<Collection<Reservation>> createReservations(@Body Collection<Reservation> reservations);
 
     /**
+     * @param reservations - reservations to be created or updated
+     * @return Reservations
+     */
+    @PUT(" ")
+    Call<Collection<Reservation>> updateReservations(@Body Collection<Reservation> reservations);
+    
+    /**
      * @param reservationId - id of reservation be updated
      * @param reservation - reservation to be updated
      * @return Reservation

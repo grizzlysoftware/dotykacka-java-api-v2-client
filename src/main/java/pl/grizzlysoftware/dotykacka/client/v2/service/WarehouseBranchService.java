@@ -18,8 +18,8 @@
 
 package pl.grizzlysoftware.dotykacka.client.v2.service;
 
-import pl.grizzlysoftware.dotykacka.client.v2.model.WarehouseBranch;
 import pl.grizzlysoftware.dotykacka.client.v2.model.ResultPage;
+import pl.grizzlysoftware.dotykacka.client.v2.model.WarehouseBranch;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -39,11 +39,18 @@ public interface WarehouseBranchService {
 
     /**
      * @param warehouseBranches - warehouseBranches to be created
-     * @return WarehouseBranch
+     * @return WarehouseBranches
      */
     @POST(" ")
     Call<Collection<WarehouseBranch>> createWarehouseBranches(@Body Collection<WarehouseBranch> warehouseBranches);
 
+    /**
+     * @param warehouseBranches - warehouseBranches to be created or updated
+     * @return WarehouseBranches
+     */
+    @PUT(" ")
+    Call<Collection<WarehouseBranch>> updateWarehouseBranches(@Body Collection<WarehouseBranch> warehouseBranches);
+    
     /**
      * @param warehouseBranchId - warehouseBranch id
      * @param warehouseBranch - warehouseBranch to be updated

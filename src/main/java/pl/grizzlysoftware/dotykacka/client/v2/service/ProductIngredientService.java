@@ -39,10 +39,17 @@ public interface ProductIngredientService {
 
     /**
      * @param productIngredients - productIngredients to be created
-     * @return ProductIngredient
+     * @return ProductIngredients
      */
     @POST(" ")
     Call<Collection<ProductIngredient>> createProductIngredients(@Body Collection<ProductIngredient> productIngredients);
+
+    /**
+     * @param productIngredients - productIngredients to be created or updated
+     * @return ProductIngredients
+     */
+    @PUT(" ")
+    Call<Collection<ProductIngredient>> updateProductIngredients(@Body Collection<ProductIngredient> productIngredients);
 
     /**
      * @param productIngredientId - id of productIngredient to be updated

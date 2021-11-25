@@ -39,10 +39,17 @@ public interface CategoryService {
 
     /**
      * @param categories - categories to be created
-     * @return Category
+     * @return Categories
      */
     @POST(" ")
     Call<Collection<Category>> createCategories(@Body Collection<Category> categories);
+
+    /**
+     * @param categories - categories to be created or updated
+     * @return Categories
+     */
+    @PUT(" ")
+    Call<Collection<Category>> updateCategories(@Body Collection<Category> categories);
 
     /**
      * @param categoryId - id of category to be updated

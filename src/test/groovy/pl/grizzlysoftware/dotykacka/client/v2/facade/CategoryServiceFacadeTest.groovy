@@ -21,8 +21,8 @@ class CategoryServiceFacadeTest extends GenericDotykackaServiceFacadeTest<Catego
     }
 
     @Override
-    CrudInvocation<CloudEntity> getEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("Category", "getById",
+    CrudInvocation getEntityInvocationDefinition() {
+        return new CrudInvocation("Category", "getById",
                 { _void -> service().createCategory(category()) },
                 { obj -> service().getCategory(obj.id) },
                 { obj -> service().deleteCategory(obj.id) }
@@ -35,8 +35,8 @@ class CategoryServiceFacadeTest extends GenericDotykackaServiceFacadeTest<Catego
     }
 
     @Override
-    CrudInvocation<CloudEntity> getCreateEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("Category", "create",
+    CrudInvocation getCreateEntityInvocationDefinition() {
+        return new CrudInvocation("Category", "create",
                 { _void -> category() },
                 service()::createCategory,
                 { obj -> service().deleteCategory(obj.id) }
@@ -44,8 +44,8 @@ class CategoryServiceFacadeTest extends GenericDotykackaServiceFacadeTest<Catego
     }
 
     @Override
-    CrudInvocation<CloudEntity> getDeleteEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("Category", "delete",
+    CrudInvocation getDeleteEntityInvocationDefinition() {
+        return new CrudInvocation("Category", "delete",
                 { _void -> service().createCategory(category()) },
                 { obj -> service().deleteCategory(obj.id) },
                 { obj -> null }
@@ -53,8 +53,8 @@ class CategoryServiceFacadeTest extends GenericDotykackaServiceFacadeTest<Catego
     }
 
     @Override
-    CrudInvocation<CloudEntity> getUpdateEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("Category", "update",
+    CrudInvocation getUpdateEntityInvocationDefinition() {
+        return new CrudInvocation("Category", "update",
                 { _void -> service().createCategory(category()) },
                 { obj -> service().updateCategory(obj)},
                 { obj -> service().deleteCategory(obj.id) }
@@ -62,8 +62,20 @@ class CategoryServiceFacadeTest extends GenericDotykackaServiceFacadeTest<Catego
     }
 
     @Override
-    CrudInvocation<CloudEntity> getPatchEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("Category", "patch",
+    CrudInvocation getBatchUpdateEntitiesInvocationDefinition() {
+        return new CrudInvocation("Category", "batch update",
+                { _void -> service().getCategories(1, 5, null) },
+                { obj ->
+                    obj.data.forEach { it.hexColor = "#000000"}
+                    service().updateCategories(obj.data)
+                },
+                { obj -> null }
+        )
+    }
+
+    @Override
+    CrudInvocation getPatchEntityInvocationDefinition() {
+        return new CrudInvocation("Category", "patch",
                 { _void -> service().createCategory(category()) },
                 { obj -> service().patchCategory(obj) },
                 { obj -> service().deleteCategory(obj.id) }

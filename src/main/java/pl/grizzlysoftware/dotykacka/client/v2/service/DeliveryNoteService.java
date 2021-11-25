@@ -22,18 +22,12 @@ import okhttp3.MultipartBody;
 import pl.grizzlysoftware.dotykacka.client.v2.model.DeliveryNote;
 import pl.grizzlysoftware.dotykacka.client.v2.model.ResultPage;
 import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
-import retrofit2.http.PATCH;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-
-import java.util.Collection;
 
 /**
  * @author Bartosz Pawłowski, bpawlowski@grizzlysoftware.pl

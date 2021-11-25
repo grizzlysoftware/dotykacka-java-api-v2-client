@@ -26,6 +26,10 @@ public class EmployeeServiceFacade extends DotykackaApiService<EmployeeService> 
     public Collection<Employee> createEmployees(Collection<Employee> employees) {
         return execute(service.createEmployees(employees));
     }
+    
+    public Collection<Employee> updateEmployees(Collection<Employee> employees) {
+        return execute(service.updateEmployees(employees));
+    }
 
     public Employee updateEmployee(Employee employee) {
         return execute(service.updateEmployee(employee.id, employee));

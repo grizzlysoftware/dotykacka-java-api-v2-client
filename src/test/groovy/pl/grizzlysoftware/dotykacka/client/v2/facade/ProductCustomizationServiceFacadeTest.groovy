@@ -21,8 +21,8 @@ class ProductCustomizationServiceFacadeTest extends GenericDotykackaServiceFacad
     }
 
     @Override
-    CrudInvocation<CloudEntity> getEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("ProductCustomization", "getById",
+    CrudInvocation getEntityInvocationDefinition() {
+        return new CrudInvocation("ProductCustomization", "getById",
                 { _void -> service().createProductCustomization(productCustomization()) },
                 { obj -> service().getProductCustomization(obj.id) },
                 { obj -> service().deleteProductCustomization(obj.id) }
@@ -35,8 +35,8 @@ class ProductCustomizationServiceFacadeTest extends GenericDotykackaServiceFacad
     }
 
     @Override
-    CrudInvocation<CloudEntity> getCreateEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("ProductCustomization", "create",
+    CrudInvocation getCreateEntityInvocationDefinition() {
+        return new CrudInvocation("ProductCustomization", "create",
                 { _void -> productCustomization() },
                 service()::createProductCustomization,
                 { obj -> service().deleteProductCustomization(obj.id) }
@@ -44,8 +44,8 @@ class ProductCustomizationServiceFacadeTest extends GenericDotykackaServiceFacad
     }
 
     @Override
-    CrudInvocation<CloudEntity> getDeleteEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("ProductCustomization", "delete",
+    CrudInvocation getDeleteEntityInvocationDefinition() {
+        return new CrudInvocation("ProductCustomization", "delete",
                 { _void -> service().createProductCustomization(productCustomization()) },
                 { obj -> service().deleteProductCustomization(obj.id) },
                 { obj -> null }
@@ -53,8 +53,8 @@ class ProductCustomizationServiceFacadeTest extends GenericDotykackaServiceFacad
     }
 
     @Override
-    CrudInvocation<CloudEntity> getUpdateEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("ProductCustomization", "update",
+    CrudInvocation getUpdateEntityInvocationDefinition() {
+        return new CrudInvocation("ProductCustomization", "update",
                 { _void -> service().createProductCustomization(productCustomization()) },
                 { obj -> service().updateProductCustomization(obj)},
                 { obj -> service().deleteProductCustomization(obj.id) }
@@ -62,8 +62,19 @@ class ProductCustomizationServiceFacadeTest extends GenericDotykackaServiceFacad
     }
 
     @Override
-    CrudInvocation<CloudEntity> getPatchEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("ProductCustomization", "patch",
+    CrudInvocation getBatchUpdateEntitiesInvocationDefinition() {
+        return new CrudInvocation("ProductCustomization", "batch update",
+                { _void -> service().getProductCustomizations(1, 5, null) },
+                { obj ->
+                    service().updateProductCustomizations(obj.data)
+                },
+                { obj -> null }
+        )
+    }
+
+    @Override
+    CrudInvocation getPatchEntityInvocationDefinition() {
+        return new CrudInvocation("ProductCustomization", "patch",
                 { _void -> service().createProductCustomization(productCustomization()) },
                 { obj -> service().patchProductCustomization(obj) },
                 { obj -> service().deleteProductCustomization(obj.id) }

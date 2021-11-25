@@ -22,8 +22,8 @@ class ProductServiceFacadeTest extends GenericDotykackaServiceFacadeTest<Product
     }
 
     @Override
-    CrudInvocation<CloudEntity> getEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("Product", "getById",
+    CrudInvocation getEntityInvocationDefinition() {
+        return new CrudInvocation("Product", "getById",
                 { _void -> service().createProduct(product()) },
                 { obj -> service().getProduct(obj.id) },
                 { obj -> service().deleteProduct(obj.id) }
@@ -36,8 +36,8 @@ class ProductServiceFacadeTest extends GenericDotykackaServiceFacadeTest<Product
     }
 
     @Override
-    CrudInvocation<CloudEntity> getCreateEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("Product", "create",
+    CrudInvocation getCreateEntityInvocationDefinition() {
+        return new CrudInvocation("Product", "create",
                 { _void -> product() },
                 service()::createProduct,
                 { obj -> service().deleteProduct(obj.id) }
@@ -45,8 +45,8 @@ class ProductServiceFacadeTest extends GenericDotykackaServiceFacadeTest<Product
     }
 
     @Override
-    CrudInvocation<CloudEntity> getDeleteEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("Product", "delete",
+    CrudInvocation getDeleteEntityInvocationDefinition() {
+        return new CrudInvocation("Product", "delete",
                 { _void -> service().createProduct(product()) },
                 { obj -> service().deleteProduct(obj.id) },
                 { obj -> null }
@@ -54,17 +54,30 @@ class ProductServiceFacadeTest extends GenericDotykackaServiceFacadeTest<Product
     }
 
     @Override
-    CrudInvocation<CloudEntity> getUpdateEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("Product", "update",
+    CrudInvocation getUpdateEntityInvocationDefinition() {
+        return new CrudInvocation("Product", "update",
                 { _void -> service().createProduct(product()) },
-                { obj -> service().updateProduct(obj) },
+                { obj ->
+                    service().updateProduct(obj)
+                },
                 { obj -> service().deleteProduct(obj.id) }
         )
     }
 
     @Override
-    CrudInvocation<CloudEntity> getPatchEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("Product", "patch",
+    CrudInvocation getBatchUpdateEntitiesInvocationDefinition() {
+        return new CrudInvocation("Product", "batch update",
+                { _void -> service().getProducts(1, 2, null, null) },
+                { obj ->
+                    service().updateProducts(obj.data)
+                },
+                { obj -> null }
+        )
+    }
+
+    @Override
+    CrudInvocation getPatchEntityInvocationDefinition() {
+        return new CrudInvocation("Product", "patch",
                 { _void -> service().createProduct(product()) },
                 { obj -> service().patchProduct(obj) },
                 { obj -> service().deleteProduct(obj.id) }

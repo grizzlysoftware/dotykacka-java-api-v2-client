@@ -39,10 +39,17 @@ public interface DiscountGroupService {
 
     /**
      * @param discountGroups - discountGroups to be created
-     * @return DiscountGroup
+     * @return DiscountGroups
      */
     @POST(" ")
     Call<Collection<DiscountGroup>> createDiscountGroups(@Body Collection<DiscountGroup> discountGroups);
+
+    /**
+     * @param discountGroups - discountGroups to be created or updated
+     * @return DiscountGroups
+     */
+    @PUT(" ")
+    Call<Collection<DiscountGroup>> updateDiscountGroups(@Body Collection<DiscountGroup> discountGroups);
 
     /**
      * @param discountGroupId - id of discountGroup to be updated

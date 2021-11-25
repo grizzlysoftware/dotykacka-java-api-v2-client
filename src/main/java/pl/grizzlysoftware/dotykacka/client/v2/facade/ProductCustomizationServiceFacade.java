@@ -27,6 +27,10 @@ public class ProductCustomizationServiceFacade extends DotykackaApiService<Produ
         return execute(service.createProductCustomizations(productCustomizations));
     }
 
+    public Collection<ProductCustomization> updateProductCustomizations(Collection<ProductCustomization> productCustomizations) {
+        return execute(service.updateProductCustomizations(productCustomizations));
+    }
+
     public ProductCustomization updateProductCustomization(ProductCustomization productCustomization) {
         return execute(service.updateProductCustomization(productCustomization.id, productCustomization));
     }

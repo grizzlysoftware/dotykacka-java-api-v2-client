@@ -21,8 +21,8 @@ class EmployeeServiceFacadeTest extends GenericDotykackaServiceFacadeTest<Employ
     }
 
     @Override
-    CrudInvocation<CloudEntity> getEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("Employee", "getById",
+    CrudInvocation getEntityInvocationDefinition() {
+        return new CrudInvocation("Employee", "getById",
                 { _void -> service().createEmployee(employee()) },
                 { obj -> service().getEmployee(obj.id) },
                 { obj -> service().deleteEmployee(obj.id) }
@@ -35,8 +35,8 @@ class EmployeeServiceFacadeTest extends GenericDotykackaServiceFacadeTest<Employ
     }
 
     @Override
-    CrudInvocation<CloudEntity> getCreateEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("Employee", "create",
+    CrudInvocation getCreateEntityInvocationDefinition() {
+        return new CrudInvocation("Employee", "create",
                 { _void -> employee() },
                 service()::createEmployee,
                 { obj -> service().deleteEmployee(obj.id) }
@@ -44,8 +44,8 @@ class EmployeeServiceFacadeTest extends GenericDotykackaServiceFacadeTest<Employ
     }
 
     @Override
-    CrudInvocation<CloudEntity> getDeleteEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("Employee", "delete",
+    CrudInvocation getDeleteEntityInvocationDefinition() {
+        return new CrudInvocation("Employee", "delete",
                 { _void -> service().createEmployee(employee()) },
                 { obj -> service().deleteEmployee(obj.id) },
                 { obj -> null }
@@ -53,8 +53,8 @@ class EmployeeServiceFacadeTest extends GenericDotykackaServiceFacadeTest<Employ
     }
 
     @Override
-    CrudInvocation<CloudEntity> getUpdateEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("Employee", "update",
+    CrudInvocation getUpdateEntityInvocationDefinition() {
+        return new CrudInvocation("Employee", "update",
                 { _void -> service().createEmployee(employee()) },
                 { obj -> service().updateEmployee(obj)},
                 { obj -> service().deleteEmployee(obj.id) }
@@ -62,8 +62,20 @@ class EmployeeServiceFacadeTest extends GenericDotykackaServiceFacadeTest<Employ
     }
 
     @Override
-    CrudInvocation<CloudEntity> getPatchEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("Employee", "patch",
+    CrudInvocation getBatchUpdateEntitiesInvocationDefinition() {
+        return new CrudInvocation("Employee", "batch update",
+                { _void -> service().getEmployees(1, 5, null) },
+                { obj ->
+                    obj.data.forEach { it.hexColor = "#000000" }
+                    service().updateEmployees(obj.data)
+                },
+                { obj -> null }
+        )
+    }
+
+    @Override
+    CrudInvocation getPatchEntityInvocationDefinition() {
+        return new CrudInvocation("Employee", "patch",
                 { _void -> service().createEmployee(employee()) },
                 { obj -> service().patchEmployee(obj) },
                 { obj -> service().deleteEmployee(obj.id) }

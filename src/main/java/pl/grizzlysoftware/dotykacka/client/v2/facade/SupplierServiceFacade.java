@@ -27,6 +27,10 @@ public class SupplierServiceFacade extends DotykackaApiService<SupplierService> 
         return execute(service.createSuppliers(suppliers));
     }
 
+    public Collection<Supplier> updateSuppliers(Collection<Supplier> suppliers) {
+        return execute(service.updateSuppliers(suppliers));
+    }
+
     public Supplier updateSupplier(Supplier supplier) {
         return execute(service.updateSupplier(supplier.id, supplier));
     }

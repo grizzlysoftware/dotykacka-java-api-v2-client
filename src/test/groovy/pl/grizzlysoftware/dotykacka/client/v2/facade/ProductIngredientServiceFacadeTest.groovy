@@ -22,8 +22,8 @@ class ProductIngredientServiceFacadeTest extends GenericDotykackaServiceFacadeTe
     }
 
     @Override
-    CrudInvocation<CloudEntity> getEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("ProductIngredient", "getById",
+    CrudInvocation getEntityInvocationDefinition() {
+        return new CrudInvocation("ProductIngredient", "getById",
                 { _void -> service().createProductIngredient(productIngredient()) },
                 { obj -> service().getProductIngredient(obj.id) },
                 { obj -> service().deleteProductIngredient(obj.id) }
@@ -36,8 +36,8 @@ class ProductIngredientServiceFacadeTest extends GenericDotykackaServiceFacadeTe
     }
 
     @Override
-    CrudInvocation<CloudEntity> getCreateEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("ProductIngredient", "create",
+    CrudInvocation getCreateEntityInvocationDefinition() {
+        return new CrudInvocation("ProductIngredient", "create",
                 { _void -> productIngredient() },
                 service()::createProductIngredient,
                 { obj -> service().deleteProductIngredient(obj.id) }
@@ -45,8 +45,8 @@ class ProductIngredientServiceFacadeTest extends GenericDotykackaServiceFacadeTe
     }
 
     @Override
-    CrudInvocation<CloudEntity> getDeleteEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("ProductIngredient", "delete",
+    CrudInvocation getDeleteEntityInvocationDefinition() {
+        return new CrudInvocation("ProductIngredient", "delete",
                 { _void -> service().createProductIngredient(productIngredient()) },
                 { obj -> service().deleteProductIngredient(obj.id) },
                 { obj -> null }
@@ -54,8 +54,8 @@ class ProductIngredientServiceFacadeTest extends GenericDotykackaServiceFacadeTe
     }
 
     @Override
-    CrudInvocation<CloudEntity> getUpdateEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("ProductIngredient", "update",
+    CrudInvocation getUpdateEntityInvocationDefinition() {
+        return new CrudInvocation("ProductIngredient", "update",
                 { _void -> service().createProductIngredient(productIngredient()) },
                 { obj -> service().updateProductIngredient(obj)},
                 { obj -> service().deleteProductIngredient(obj.id) }
@@ -63,8 +63,19 @@ class ProductIngredientServiceFacadeTest extends GenericDotykackaServiceFacadeTe
     }
 
     @Override
-    CrudInvocation<CloudEntity> getPatchEntityInvocationDefinition() {
-        return new CrudInvocation<CloudEntity>("ProductIngredient", "patch",
+    CrudInvocation getBatchUpdateEntitiesInvocationDefinition() {
+        return new CrudInvocation("ProductIngredient", "batch update",
+                { _void -> service().getProductIngredients(1, 5, null) },
+                { obj ->
+                    service().updateProductIngredient(obj.data)
+                },
+                { obj -> null }
+        )
+    }
+
+    @Override
+    CrudInvocation getPatchEntityInvocationDefinition() {
+        return new CrudInvocation("ProductIngredient", "patch",
                 { _void -> service().createProductIngredient(productIngredient()) },
                 { obj -> service().patchProductIngredient(obj) },
                 { obj -> service().deleteProductIngredient(obj.id) }
