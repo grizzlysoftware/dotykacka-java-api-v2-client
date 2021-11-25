@@ -1,5 +1,40 @@
-#Dotykacka Java API Client
+# Dotykacka Java API Client
 Compatible with Dotykacka api version 2.x
+
+## Notes
+### ETAG support
+`ETAG` is an object checksum calculated by the server side while getting and updating objects and it's returned in `response headers`.
+It is helpful for dealing with concurrent updating API objects. 
+
+How does it work?
+
+- Getting objects from API:
+
+Everytime `CloudEntity` object is fetched from API its `etag` property is filled with value from `ETAG` response headers.
+`etag` property is applied to `CloudEntity` object every time it's fetched from API
+
+- Putting updated objects to API:
+
+Everytime `CloudEntity` object is about to being PUT/PATCH to API it's `etag` property value is applied as request `If-Match` header.
+Unfortunately this is very inefficient because right before request is being sent,
+request body(target object) is deserialized by specific interceptor to retrieve forementioned `etag` property.
+
+
+Warning! 
+
+While fetching collections, `ETAG` is calculated for the state of collection. It means that:
+- collection items order
+- collection items count 
+- collection items state
+are considered while calculating `ETAG`. 
+
+It means also that trying to update only ONE of the items from such collection 
+and using its `ETAG`(calculated for collection as whole) will end up in failure returning `412` status code.
+
+In order to update single item from collection you have to re-fetch single that item by its id and apply it's `etag` to the updated item's `etag`.
+Another way to update that single item is to pass collection as a whole to batch update.
+
+See more at [https://docs.api.dotypos.com/api-reference/general/etags](https://docs.api.dotypos.com/api-reference/general/etags)
 
 ## Recommended pre-requisities
 * Java 11
