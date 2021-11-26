@@ -54,10 +54,6 @@ def releaseType = System.getenv("RELEASE_TYPE")
 configurePublishing(releaseType)
 
 def configurePublishing(releaseType) {
-    ext."signing.keyId" = System.getenv("SIGNING_KEY_ID")
-    ext."signing.password" = System.getenv("SIGNING_KEY_PASSWORD")
-    ext."signing.secretKeyRingFile" = System.getenv("SIGNING_KEY_PATH")
-
     publishing {
         publications {
             "${project.name}"(MavenPublication) {
@@ -131,12 +127,15 @@ def configurePublishing(releaseType) {
             }
         }
     }
+}
 
-    if (releaseType != null) {
-        signing {
-            sign publishing.publications."${project.name}"
-        }
-    }
+signing {
+    ext."signing.keyId" = System.getenv("SIGNING_KEY_ID")
+    ext."signing.password" = System.getenv("SIGNING_KEY_PASSWORD")
+    ext."signing.secretKeyRingFile" = System.getenv("SIGNING_KEY_PATH")
+
+    required { releaseType == "RELEASE"}
+    sign publishing.publications."${project.name}"
 }
 
 dependencies {
