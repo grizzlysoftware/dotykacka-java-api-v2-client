@@ -2,6 +2,72 @@
 Compatible with Dotykacka api version 2.x
 
 ## Notes
+### Usage
+Client is Cloud/tenant oriented. It means that for each Cloud you manage you need a dedicated client instance.
+
+Example:
+```
+String url = "https://api.dotykacka.cz/v2";             // API url
+String token = "YOUR_REFRESH_TOKEN";                    // refresh token generated through dotykacka cloud webapp
+Long cloudId = 28435734252123L;                         // your cloud/tenant id
+Duration requestTimeout = Duration.ofSeconds(5);        // duration until request times out
+
+ApiConfiguration configuration = new ApiConfiguration(
+        url,
+        token,
+        cloudId,
+        requestTimeout
+);
+
+DotykackaApiClient client = new DotykackaApiClient(configuration);
+```
+
+V'oila! That's basically it. You can access any of the given client's service facades to interact with API.
+
+```
+client.authenticationServiceFacade;                         // authentication service
+client.cloudServiceFacade;                                  // cloud entity service facade                                        
+client.branchServiceFacade;                                 // branch entity service facade
+client.categoryServiceFacade;                               // category entity service facade       
+client.customerServiceFacade;                               // customer entity service facade        
+client.discountGroupServiceFacade;                          // discount group entity service facade            
+client.deliveryNoteServiceFacade;                           // delivery note entity service facade            
+client.employeeServiceFacade;                               // employee entity service facade        
+client.moneyLogServiceFacade;                               // money log entity service facade        
+client.orderServiceFacade;                                  // order entity service facade    
+client.orderItemServiceFacade;                              // order item entity service facade        
+client.productServiceFacade;                                // product entity service facade        
+client.productCustomizationServiceFacade;                   // product customization entity service facade                    
+client.productIngredientServiceFacade;                      // product ingredient entity service facade                
+client.reservationServiceFacade;                            // reservation entity service facade            
+client.supplierServiceFacade;                               // supplier entity service facade        
+client.tableServiceFacade;                                  // table entity service facade    
+client.tagServiceFacade;                                    // tag entity service facade    
+client.warehouseServiceFacade;                              // warehouse entity service facade        
+client.warehouseBranchServiceFacade;                        // warehouse branch entity service facade                
+client.eetSubjectServiceFacade;                             // eetSubject entity service facade        
+```
+API is basically CRUD, so the client's service facades are pretty descriptive by itself.
+
+For example, have a look at `CustomerServiceFacade:`
+- createCustomer - creates single customers
+- createCustomers - creates customers in batch mode
+- updateCustomers - updates customers in batch mode
+- updateCustomer - updates single customer
+- patchCustomer - patches single customer
+- deleteCustomer - deletes customer by id
+- getCustomer - gets customer by id
+- getCustomers - gets paginated collection of customers for given page, limit and filter criteria parameters
+- getAllCustomers - gets unpaginated collection of ALL customers for given filter criteria parameters
+
+### Authentication and authorization
+
+Client does authentication and authorization for you. It authenticates in API using given `REFRESH_TOKEN` to obtain `ACCESS_TOKEN` 
+required for authorization while sending requests. Obtained `ACCESS_TOKEN` is stored in `AccessTokenProvider` instance. 
+It is attached to every outgoing request's headers until it is valid. If it is not, fresh `ACCESS_TOKEN` is obtained automatically. 
+
+`AccessTokenProvider` is not thread-safe, and it was not intended to be as I did not identify any side effects of having not thread-safe component implementation.
+
 ### ETAG support
 `ETAG` is an object checksum calculated by the server side while getting and updating objects and it's returned in `response headers`.
 It is helpful for dealing with concurrent updating API objects. 
@@ -17,7 +83,7 @@ Everytime `CloudEntity` object is fetched from API its `etag` property is filled
 
 Everytime `CloudEntity` object is about to being PUT/PATCH to API it's `etag` property value is applied as request `If-Match` header.
 Unfortunately this is very inefficient because right before request is being sent,
-request body(target object) is deserialized by specific interceptor to retrieve forementioned `etag` property.
+request body(target object) is deserialized by a specific interceptor to retrieve forementioned `etag` property.
 
 
 Warning! 
@@ -72,19 +138,19 @@ THE ONLY WAY FOR RUNNING INTEGRATION TEST IS TO PROVIDE YOUR OWN CLOUD_ID AND RE
 ### YOU ARE RUNNING INTEGRATION TESTS ON YOUR OWN RISK !!
 
 ### Execution
-
-DOTYKACKA_API_URL - api service url
-DOTYKACKA_API_CLOUD_ID - your cloud (tenant) id
-DOTYKACKA_API_TOKEN - refresh token obtained from dotykacka admin portal, see guide [here](https://docs.api.dotypos.com/authorization)
-INTEGRATION_TEST - flag that tells test engine to execute integration tests. So in order to run integration tests its value must be non-empty
+Variables description:
+- DOTYKACKA_API_URL - api service url
+- DOTYKACKA_API_CLOUD_ID - your cloud (tenant) id
+- DOTYKACKA_API_TOKEN - refresh token obtained from dotykacka admin portal, see guide [here](https://docs.api.dotypos.com/authorization)
+- INTEGRATION_TEST - flag that tells test engine to execute integration tests. So in order to run integration tests its value must be non-empty
 
 If you want to execute tests with default ids just substitute `xxxxx` with desired values and invoke:
 
 ```
-export DOTYKACKA_API_URL=xxxxx \
-export DOTYKACKA_API_CLOUD_ID=xxxxx \
-export DOTYKACKA_API_TOKEN=xxxxx \
-export INTEGRATION_TEST=x && gradlew clean test
+DOTYKACKA_API_URL=xxxxx \
+DOTYKACKA_API_CLOUD_ID=xxxxx \
+DOTYKACKA_API_TOKEN=xxxxx \
+INTEGRATION_TEST=x && gradlew clean test
 ```
 
 If you want to execute tests with your tenant specific ids 
@@ -92,24 +158,24 @@ you have to override them - simply by exporting additional variables.
 As in previous case - just substitute `xxxxx` with desired values and invoke as follows: 
 
 ```
-export DOTYKACKA_API_URL=xxxxx \
-export DOTYKACKA_API_CLOUD_ID=xxxxx \
-export DOTYKACKA_API_TOKEN=xxxxx \
-export BRANCH_ID=xxxxx \
-export CLOUD_ID=xxxxx \
-export CATEGORY_ID=xxxxx \
-export COMPANY_ID=xxxxx \
-export DISCOUNT_GROUP_ID=xxxxx \
-export EMPLOYEE_ID=xxxxx \
-export INGREDIENT_ID=xxxxx \
-export MONEY_LOG_ID=xxxxx \
-export ORDER_ID=xxxxx \
-export ORDER_ITEM_ID=xxxxx \
-export PRODUCT_ID=xxxxx \
-export TABLE_ID=xxxxx \
-export TAG_ID=xxxxx \
-export WAREHOUSE_ID=xxxxx \
-export INTEGRATION_TEST=x && gradlew clean test
+DOTYKACKA_API_URL=xxxxx \
+DOTYKACKA_API_CLOUD_ID=xxxxx \
+DOTYKACKA_API_TOKEN=xxxxx \
+BRANCH_ID=xxxxx \
+CLOUD_ID=xxxxx \
+CATEGORY_ID=xxxxx \
+COMPANY_ID=xxxxx \
+DISCOUNT_GROUP_ID=xxxxx \
+EMPLOYEE_ID=xxxxx \
+INGREDIENT_ID=xxxxx \
+MONEY_LOG_ID=xxxxx \
+ORDER_ID=xxxxx \
+ORDER_ITEM_ID=xxxxx \
+PRODUCT_ID=xxxxx \
+TABLE_ID=xxxxx \
+TAG_ID=xxxxx \
+WAREHOUSE_ID=xxxxx \
+INTEGRATION_TEST=x && gradlew clean test
 ```
 
 ## Contribution
