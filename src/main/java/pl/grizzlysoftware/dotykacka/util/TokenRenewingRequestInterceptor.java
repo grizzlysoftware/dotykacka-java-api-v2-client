@@ -19,9 +19,9 @@
 
 package pl.grizzlysoftware.dotykacka.util;
 
-import okhttp3.*;
+import okhttp3.Interceptor;
+import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 
