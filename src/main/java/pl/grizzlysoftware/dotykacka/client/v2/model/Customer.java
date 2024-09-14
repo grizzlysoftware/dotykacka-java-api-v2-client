@@ -28,7 +28,7 @@ import java.util.HashSet;
 /**
  * Created by Bartosz Pawłowski on 2019-07-01.
  */
-public class Customer {
+public class Customer extends CloudEntity{
     @JsonProperty("barcode")
     public String barcode;
     @JsonProperty("_discountGroupId")
