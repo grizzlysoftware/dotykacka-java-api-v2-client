@@ -87,8 +87,8 @@ public class WarehouseServiceFacade extends DotykackaApiService<WarehouseService
         return getAllWarehouses(null);
     }
 
-    public Collection<ProductStock> getProductStocks(Long warehouseId) {
-        return execute(service.getProductStocks(warehouseId));
+    public ResultPage<ProductStock> getProductStocks(Long warehouseId, int page, int pageSize, String filter, String sort) {
+        return execute(service.getProductStocks(warehouseId, page + 1, pageSize, filter, sort));
     }
 
     public ProductStock getProductStockById(Long warehouseId, Long productId) {

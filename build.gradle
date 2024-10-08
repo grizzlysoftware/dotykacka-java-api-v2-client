@@ -1,4 +1,5 @@
 plugins {
+    id 'checkstyle'
     id 'maven-publish'
     id 'java'
     id 'java-library'
@@ -19,6 +20,18 @@ repositories {
 
 test {
     useJUnitPlatform()
+}
+
+tasks.withType(Checkstyle) {
+    reports {
+        xml {
+            enabled false
+        }
+        html {
+            enabled false
+        }
+    }
+    configFile new File("checkstyle.xml")
 }
 
 task artifactVersion {
