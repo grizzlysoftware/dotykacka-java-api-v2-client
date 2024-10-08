@@ -20,7 +20,6 @@
 package pl.grizzlysoftware.dotykacka.client.v2.facade;
 
 import pl.grizzlysoftware.dotykacka.client.v2.model.Tag;
-import pl.grizzlysoftware.dotykacka.client.v2.model.Tag;
 import pl.grizzlysoftware.dotykacka.client.v2.model.ResultPage;
 import pl.grizzlysoftware.dotykacka.client.v2.service.TagService;
 

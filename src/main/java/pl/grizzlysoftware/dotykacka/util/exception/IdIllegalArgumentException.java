@@ -19,7 +19,8 @@
 
 package pl.grizzlysoftware.dotykacka.util.exception;
 
-public class IdIllegalArgumentException extends IdRuntimeException{
+public class IdIllegalArgumentException extends IdRuntimeException {
+
     public IdIllegalArgumentException(String id) {
         super(id);
     }

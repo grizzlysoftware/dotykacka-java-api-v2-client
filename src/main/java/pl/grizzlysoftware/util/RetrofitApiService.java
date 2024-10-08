@@ -30,7 +30,7 @@ public class RetrofitApiService {
     protected RetrofitCallExecutor executor;
 
     public RetrofitApiService(RetrofitCallExecutor executor) {
-        this.executor = requireNonNull(executor);;
+        this.executor = requireNonNull(executor);
     }
 
     public RetrofitApiService() {

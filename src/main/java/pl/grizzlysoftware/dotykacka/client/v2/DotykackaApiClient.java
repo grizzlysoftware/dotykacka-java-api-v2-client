@@ -70,7 +70,6 @@ import pl.grizzlysoftware.util.OkHttpLoggingInterceptor;
 
 import java.util.List;
 
-import static java.lang.String.format;
 import static pl.grizzlysoftware.dotykacka.util.exception.ExceptionPreconditions.checkNotNull;
 import static pl.grizzlysoftware.util.OkHttpClientUtils.builder;
 import static pl.grizzlysoftware.util.RetrofitUtils.service;
@@ -134,7 +133,7 @@ public class DotykackaApiClient {
         final var cloudService = service(reqHttpClient, cloudServiceUrl, CloudService.class);
         cloudServiceFacade = new CloudServiceFacade(cloudService);
 
-        final var apiUrl = cloudServiceUrl + "/"+ configuration.cloudId;
+        final var apiUrl = cloudServiceUrl + "/" + configuration.cloudId;
 
         final var branchService = service(reqHttpClient, branchServiceUrl(apiUrl), BranchService.class);
         branchServiceFacade = new BranchServiceFacade(branchService);

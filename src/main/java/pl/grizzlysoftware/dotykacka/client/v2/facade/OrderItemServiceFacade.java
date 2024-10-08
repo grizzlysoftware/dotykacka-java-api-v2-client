@@ -26,7 +26,6 @@ import pl.grizzlysoftware.dotykacka.client.v2.service.OrderItemService;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.Collection;
 
 import static java.lang.String.format;
@@ -35,7 +34,9 @@ import static java.lang.String.format;
  * @author Bartosz Pawłowski, bpawlowski@grizzlysoftware.pl
  */
 public class OrderItemServiceFacade extends DotykackaApiService<OrderItemService> {
-    private static final DateTimeFormatter RECEIPTS_RANGE_DATE_FORMATTER = DateTimeFormatter.ofPattern("YYYY-MM-dd'T'HH:mm:ss.SSSX").withZone(ZoneId.of("UTC"));
+    private static final DateTimeFormatter RECEIPTS_RANGE_DATE_FORMATTER = DateTimeFormatter.ofPattern("YYYY-MM-dd'T'HH:mm:ss.SSSX")
+            .withZone(ZoneId.of("UTC"));
+
     private static final String RECEIPTS_RANGE_PATTERN = "completed|gteq|%s;completed|lt|%s";
 
     public OrderItemServiceFacade(OrderItemService service) {

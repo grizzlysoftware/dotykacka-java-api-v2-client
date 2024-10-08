@@ -23,7 +23,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import pl.grizzlysoftware.dotykacka.client.v2.model.ProductStock;
 import pl.grizzlysoftware.dotykacka.client.v2.model.Warehouse;
 import pl.grizzlysoftware.dotykacka.client.v2.model.ResultPage;
-import pl.grizzlysoftware.dotykacka.client.v2.model.WarehouseBranch;
 import pl.grizzlysoftware.dotykacka.client.v2.model.WarehouseItemSale;
 import pl.grizzlysoftware.dotykacka.client.v2.model.WarehouseStockUp;
 import pl.grizzlysoftware.dotykacka.client.v2.model.WarehouseTransfer;
@@ -50,14 +49,14 @@ public interface WarehouseService {
      */
     @POST(" ")
     Call<Collection<Warehouse>> createWarehouses(@Body Collection<Warehouse> warehouses);
-    
+
     /**
      * @param warehouses - warehouses to be created or updated
      * @return Warehouses
      */
     @PUT(" ")
     Call<Collection<Warehouse>> updateWarehouses(@Body Collection<Warehouse> warehouses);
-    
+
     /**
      * @param warehouseId - warehouse id
      * @param warehouse   - warehouse to be updated
@@ -105,10 +104,18 @@ public interface WarehouseService {
 
     /**
      * @param warehouseId - warehouse from which product stocks should be fetched
+     * @param page        - pagination parameter, default = 1
+     * @param limit       - pagination parameter, default = 100, max = 100
+     * @param filter      - query filter
+     * @param sort        - Description: Sort parameters in format: column_name1,column_name2 //means asc -column_name1,-column_name2 //means desc
      * @return Product stock
      */
     @GET("{warehouseId}/products")
-    Call<Collection<ProductStock>> getProductStocks(@Path("warehouseId") Long warehouseId);
+    Call<ResultPage<ProductStock>> getProductStocks(@Path("warehouseId") Long warehouseId,
+                                                    @Query("page") int page,
+                                                    @Query("limit") int limit,
+                                                    @Query("filter") String filter,
+                                                    @Query("sort") String sort);
 
     /**
      * @param warehouseId - warehouse from which product stock should be fetched

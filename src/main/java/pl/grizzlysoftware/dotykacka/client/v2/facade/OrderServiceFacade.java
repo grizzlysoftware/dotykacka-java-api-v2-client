@@ -62,36 +62,36 @@ public class OrderServiceFacade extends DotykackaApiService<OrderService> {
         return getOrders(page, pageSize, "moneyLogs,orderItems", null, filter, sort);
     }
 
-    public Collection<Order> getAllOrders(String include, String filter, String sort) {
-        return batchLoader.load(page -> getOrders(page.page, page.pageSize, include, null, filter, sort));
-    }
-
     public Collection<Order> getAllOrdersIncludingOrderItems(String filter, String sort) {
         return batchLoader.load(page -> getOrdersIncludingOrderItems(page.page, page.pageSize, filter, sort));
-    }
-
-    public Collection<Order> getAllOrdersIncludingMoneyLogs(String filter, String sort) {
-        return batchLoader.load(page -> getOrdersIncludingMoneyLogs(page.page, page.pageSize, filter, sort));
-    }
-
-    public Collection<Order> getAllOrdersIncludingOrderItemsAndMoneyLogs(String filter, String sort) {
-        return batchLoader.load(page -> getOrdersIncludingMoneyLogsAndOrderItems(page.page, page.pageSize, filter, sort));
-    }
-
-    public Collection<Order> getAllOrders(String sort) {
-        return getAllOrders(null, null, sort);
     }
 
     public Collection<Order> getAllOrdersIncludingOrderItems(String sort) {
         return getAllOrdersIncludingOrderItems(null, sort);
     }
 
+    public Collection<Order> getAllOrdersIncludingMoneyLogs(String filter, String sort) {
+        return batchLoader.load(page -> getOrdersIncludingMoneyLogs(page.page, page.pageSize, filter, sort));
+    }
+
     public Collection<Order> getAllOrdersIncludingMoneyLogs(String sort) {
         return getAllOrdersIncludingMoneyLogs(null, sort);
     }
 
+    public Collection<Order> getAllOrdersIncludingOrderItemsAndMoneyLogs(String filter, String sort) {
+        return batchLoader.load(page -> getOrdersIncludingMoneyLogsAndOrderItems(page.page, page.pageSize, filter, sort));
+    }
+
     public Collection<Order> getAllOrdersIncludingOrderItemsAndMoneyLogs(String sort) {
         return getAllOrdersIncludingOrderItemsAndMoneyLogs(null, sort);
+    }
+
+    public Collection<Order> getAllOrders(String include, String filter, String sort) {
+        return batchLoader.load(page -> getOrders(page.page, page.pageSize, include, null, filter, sort));
+    }
+
+    public Collection<Order> getAllOrders(String sort) {
+        return getAllOrders(null, null, sort);
     }
 
     public Collection<Order> getAllOrders() {

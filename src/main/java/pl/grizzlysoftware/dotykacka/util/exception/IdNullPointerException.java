@@ -19,7 +19,8 @@
 
 package pl.grizzlysoftware.dotykacka.util.exception;
 
-public class IdNullPointerException extends IdRuntimeException{
+public class IdNullPointerException extends IdRuntimeException {
+
     public IdNullPointerException(String id) {
         super(id);
     }

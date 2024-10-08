@@ -75,11 +75,15 @@ public class AccessToken {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
+        if (this == o) {
+            return true;
+        }
 
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-        AccessToken that = (AccessToken) o;
+        final var that = (AccessToken) o;
 
         return new EqualsBuilder()
                 .append(token, that.token)
