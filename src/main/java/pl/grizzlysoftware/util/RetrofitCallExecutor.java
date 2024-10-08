@@ -25,10 +25,6 @@ import okhttp3.ResponseBody;
 import okio.Buffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.grizzlysoftware.dotykacka.client.v2.model.AccessToken;
-import pl.grizzlysoftware.dotykacka.client.v2.model.CloudEntity;
-import pl.grizzlysoftware.dotykacka.util.exception.ExceptionPreconditions;
-import pl.grizzlysoftware.dotykacka.util.exception.IdNullPointerException;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -39,21 +35,22 @@ import java.net.HttpURLConnection;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 import static java.util.Optional.ofNullable;
+import static pl.grizzlysoftware.dotykacka.util.exception.ExceptionPreconditions.checkNotNull;
 
 /**
  * @author Bartosz Pawłowski, bpawlowski@grizzlysoftware.pl
  */
 public class RetrofitCallExecutor implements OnRetrofitCallExecutionListener {
     private static final Logger LOGGER = LoggerFactory.getLogger(RetrofitCallExecutor.class);
-    private static final String EXCEPTIONAL_MESSAGE_PATTERN = "Unable to invoke external service: '%s'" +
-            "request url: '%s'%n" +
-            "request method: '%s'%n" +
-            "request headers: '%s'%n" +
-            "request body: %n'%s'%n" +
-            "response status: '%s'%n" +
-            "response message: '%s'%n" +
-            "response headers: %n'%s'%n" +
-            "response body: %n'%s'";
+    private static final String EXCEPTIONAL_MESSAGE_PATTERN = "Unable to invoke external service: '%s'"
+           + "request url: '%s'%n"
+           + "request method: '%s'%n"
+           + "request headers: '%s'%n"
+           + "request body: %n'%s'%n"
+           + "response status: '%s'%n"
+           + "response message: '%s'%n"
+           + "response headers: %n'%s'%n"
+           + "response body: %n'%s'";
 
     protected final Class<?> target;
 
@@ -62,6 +59,7 @@ public class RetrofitCallExecutor implements OnRetrofitCallExecutionListener {
     public RetrofitCallExecutor(Class<?> target) {
         this.target = requireNonNull(target);
     }
+
     public <T> T execOrThrow(Call<T> call) {
         return executeOrThrow(call)
                 .body();
@@ -77,13 +75,13 @@ public class RetrofitCallExecutor implements OnRetrofitCallExecutionListener {
                 throw new ResponseStatusException(response.code(),
                         String.format(EXCEPTIONAL_MESSAGE_PATTERN,
                                 target.getSimpleName(),
-                                request.url().url().toString(),
+                                request.url().url(),
                                 request.method(),
-                                request.headers().toString(),
+                                request.headers(),
                                 requestBodyAsString(request),
                                 response.code(),
                                 response.message(),
-                                response.headers().toString(),
+                                response.headers(),
                                 ofNullable(response.errorBody()).map(this::unwrapBody).orElse("{}"))
                 );
             }
@@ -99,7 +97,7 @@ public class RetrofitCallExecutor implements OnRetrofitCallExecutionListener {
     }
 
     public void setCallExecutionListener(OnRetrofitCallExecutionListener callExecutionListener) {
-        this.callExecutionListener = ExceptionPreconditions.checkNotNull(callExecutionListener, "20211118:213525", "OnRetrofitCallExecutionListener cannot be null");
+        this.callExecutionListener = checkNotNull(callExecutionListener, "20211118:213525", "OnRetrofitCallExecutionListener cannot be null");
     }
 
     private String requestBodyAsString(Request request) throws IOException {

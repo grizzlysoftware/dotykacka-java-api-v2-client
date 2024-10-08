@@ -22,7 +22,6 @@ package pl.grizzlysoftware.dotykacka.client.v2.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.ZonedDateTime;
-import java.util.Collection;
 
 /**
  * @author Bartosz Pawłowski, bpawlowski@grizzlysoftware.pl

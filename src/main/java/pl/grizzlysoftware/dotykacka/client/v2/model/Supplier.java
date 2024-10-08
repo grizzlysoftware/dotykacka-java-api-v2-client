@@ -22,9 +22,6 @@ package pl.grizzlysoftware.dotykacka.client.v2.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
-import java.util.Collection;
-import java.util.HashSet;
-
 /**
  * Created by Bartosz Pawłowski on 2019-07-01.
  */

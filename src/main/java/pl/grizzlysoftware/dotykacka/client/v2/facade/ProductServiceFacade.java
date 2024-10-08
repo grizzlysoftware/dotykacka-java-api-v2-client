@@ -67,10 +67,34 @@ public class ProductServiceFacade extends DotykackaApiService<ProductService> {
         return execute(service.getProduct(id));
     }
 
+    public Collection<Product> getAllProductsIncludingIngredients(String filter, String sort) {
+        return getAllProducts("ingredients", filter, sort);
+    }
+
+    public Collection<Product> getAllProductsIncludingIngredients(String sort) {
+        return getAllProductsIncludingIngredients(null, sort);
+    }
+
+    public Collection<Product> getAllProductsIncludingCustomizations(String filter, String sort) {
+        return getAllProducts("customizations", filter, sort);
+    }
+
+    public Collection<Product> getAllProductsIncludingCustomizations(String sort) {
+        return getAllProductsIncludingCustomizations(null, sort);
+    }
+
+    public Collection<Product> getAllProductsIncludingIngredientsAndCustomizations(String filter, String sort) {
+        return getAllProducts("ingredients,customizations", filter, sort);
+    }
+
+    public Collection<Product> getAllProductsIncludingIngredientsAndCustomizations(String sort) {
+        return getAllProductsIncludingIngredientsAndCustomizations(null, sort);
+    }
+
     public ResultPage<Product> getProducts(int page, int pageSize, String include, String filter, String sort) {
         return execute(service.getProducts(page, pageSize, include, filter, sort));
     }
-    
+
     public ResultPage<Product> getProducts(int page, int pageSize, String include, String sort) {
         return getProducts(page, pageSize, include, null, sort);
     }
@@ -79,32 +103,8 @@ public class ProductServiceFacade extends DotykackaApiService<ProductService> {
         return batchLoader.load(page -> getProducts(page.page, page.pageSize, include, filter, sort));
     }
 
-    public Collection<Product> getAllProductsIncludingIngredients(String filter, String sort) {
-        return getAllProducts("ingredients", filter, sort);
-    }
-
-    public Collection<Product> getAllProductsIncludingCustomizations(String filter, String sort) {
-        return getAllProducts("customizations", filter, sort);
-    }
-
-    public Collection<Product> getAllProductsIncludingIngredientsAndCustomizations(String filter, String sort) {
-        return getAllProducts("ingredients,customizations", filter, sort);
-    }
-
     public Collection<Product> getAllProducts(String sort) {
         return getAllProducts(null, null, sort);
-    }
-
-    public Collection<Product> getAllProductsIncludingIngredients(String sort) {
-        return getAllProductsIncludingIngredients(null, sort);
-    }
-
-    public Collection<Product> getAllProductsIncludingCustomizations(String sort) {
-        return getAllProductsIncludingCustomizations(null, sort);
-    }
-
-    public Collection<Product> getAllProductsIncludingIngredientsAndCustomizations(String sort) {
-        return getAllProductsIncludingIngredientsAndCustomizations(null, sort);
     }
 
     public Collection<Product> getAllProducts() {

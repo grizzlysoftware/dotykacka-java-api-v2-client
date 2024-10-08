@@ -21,11 +21,12 @@ package pl.grizzlysoftware.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.grizzlysoftware.dotykacka.util.exception.ExceptionPreconditions;
 import retrofit2.Call;
 import retrofit2.Response;
 
 import java.util.Collection;
+
+import static pl.grizzlysoftware.dotykacka.util.exception.ExceptionPreconditions.checkNotNull;
 
 public class CompositeOnRetroCallExecutionListener implements OnRetrofitCallExecutionListener {
     private static final Logger logger = LoggerFactory.getLogger(CompositeOnRetroCallExecutionListener.class);
@@ -33,7 +34,7 @@ public class CompositeOnRetroCallExecutionListener implements OnRetrofitCallExec
     protected final Collection<OnRetrofitCallExecutionListener> listeners;
 
     public CompositeOnRetroCallExecutionListener(Collection<OnRetrofitCallExecutionListener> listeners) {
-        this.listeners = ExceptionPreconditions.checkNotNull(listeners, "20211118:215816", "Collection<OnRetrofitCallExecutionListener> cannot be null");
+        this.listeners = checkNotNull(listeners, "20211118:215816", "Collection<OnRetrofitCallExecutionListener> cannot be null");
     }
 
     @Override

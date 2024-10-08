@@ -21,7 +21,6 @@ package pl.grizzlysoftware.dotykacka.client.v2.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -43,7 +42,7 @@ public class Employee extends CloudEntity {
     public String email;
 
     @JsonProperty("hexColor")
-    public String hexColor = "#000000";;
+    public String hexColor = "#000000";
 
     @JsonProperty("enabled")
     public Boolean isEnabled = true;

@@ -58,7 +58,8 @@ public interface ProductCustomizationService {
      * @return ProductCustomization
      */
     @PUT("{productCustomizationId}")
-    Call<ProductCustomization> updateProductCustomization(@Path("productCustomizationId") Long productCustomizationId, @Body ProductCustomization productCustomization);
+    Call<ProductCustomization> updateProductCustomization(@Path("productCustomizationId") Long productCustomizationId,
+                                                          @Body ProductCustomization productCustomization);
 
     /**
      * @param productCustomizationId - id of productCustomization to be patched
@@ -66,7 +67,8 @@ public interface ProductCustomizationService {
      * @return ProductCustomization
      */
     @PATCH("{productCustomizationId}")
-    Call<ProductCustomization> patchProductCustomization(@Path("productCustomizationId") Long productCustomizationId, @Body ProductCustomization productCustomization);
+    Call<ProductCustomization> patchProductCustomization(@Path("productCustomizationId") Long productCustomizationId,
+                                                         @Body ProductCustomization productCustomization);
 
     /**
      * @param productCustomizationId - productCustomization id

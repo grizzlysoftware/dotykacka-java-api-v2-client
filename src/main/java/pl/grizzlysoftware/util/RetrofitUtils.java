@@ -22,8 +22,6 @@ package pl.grizzlysoftware.util;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.CallAdapter;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
@@ -44,9 +42,10 @@ public final class RetrofitUtils {
                 .baseUrl(url)
                 .client(client)
                 .addConverterFactory(new Converter.Factory() {
-                    Converter.Factory jks = JacksonConverterFactory.create(mapper);
+                    final Converter.Factory jks = JacksonConverterFactory.create(mapper);
                     @Override
-                    public Converter<?, RequestBody> requestBodyConverter(Type type, Annotation[] parameterAnnotations, Annotation[] methodAnnotations, Retrofit retrofit) {
+                    public Converter<?, RequestBody> requestBodyConverter(Type type, Annotation[] parameterAnnotations,
+                                                                          Annotation[] methodAnnotations, Retrofit retrofit) {
                         return jks.requestBodyConverter(type, parameterAnnotations, methodAnnotations, retrofit);
                     }
 
